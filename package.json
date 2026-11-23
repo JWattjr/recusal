@@ -1,0 +1,27 @@
+{
+  "name": "recusal-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "python -m http.server 4173 --directory frontend",
+    "build": "node scripts/build.mjs",
+    "test:contracts": "python scripts/run_direct_tests.py",
+    "lint:contract": "python scripts/run_genvm_lint.py",
+    "test:integration": "python scripts/run_studionet_integration.py",
+    "bundle": "esbuild frontend/gl-entry.js --bundle --format=iife --platform=browser --minify --outfile=frontend/vendor/genlayer.js --define:process.env.NODE_ENV=\\\"production\\\""
+  },
+  "description": "Recusal is a fictional grants-panel demo. Validators independently decide whether disclosed conduct satisfies a frozen demo grant policy; the contract applies the supported date comparison and enforces the assignment-specific ballot roster. The public page opens directly on the featured ruling without a wallet.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "genlayer-js": "^2.0.0"
+  }
+}

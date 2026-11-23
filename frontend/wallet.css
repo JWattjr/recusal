@@ -1,0 +1,3 @@
+.wallet-prompt{margin:-52px 0 58px;padding:9px 12px;border-left:2px solid #a99a75;background:#eeece3;color:var(--muted);font-size:10px;line-height:1.5}.wallet-prompt.connected{border-color:var(--green);color:var(--green)}
+.ruling-meta{flex-wrap:wrap;gap:7px 15px}.ruling-meta #caseDeadlines{color:#727a70;font-size:8px}
+@media(max-width:620px){.wallet-prompt{margin:-35px 0 42px;font-size:9px}}

@@ -1,0 +1,149 @@
+{
+  "contractAddress": "0x1B18Bf76D50352C174aEeBAf1BeD9815CE3A43a3",
+  "network": "studionet",
+  "chainId": 61999,
+  "rpcUrl": "https://studio.genlayer.com/api",
+  "explorerBase": "https://explorer-studio.genlayer.com",
+  "explorerUrl": "https://explorer-studio.genlayer.com/address/0x1B18Bf76D50352C174aEeBAf1BeD9815CE3A43a3",
+  "explorerTxBase": "https://explorer-studio.genlayer.com/tx/",
+  "walletNames": {
+    "0x92c62D01102ED3c866720dC0a92004426402f27d": "Rowan Hale",
+    "0xA0210946c7Cb12fed65ffcC06189Ed6425909e70": "Ari Bello",
+    "0xdC672271ab77c56d826289535A213d824d37B098": "Tessa Morgan",
+    "0xC5ae7f0de1C462827401Cf25714AcB0558ED992b": "Jules Park",
+    "0xFA64C0Fb5899E9955020B5CAB33E36751f8c1Bc8": "Niko Vale",
+    "0xb9515e3ed3AAD5A634bBb5cEC0ec274a73D9Cfd4": "Mara Ellis",
+    "0xE6077631278b00a55F56ecb7dCa71E269c2d1716": "Sam Okoro",
+    "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3": "Steward"
+  },
+  "recordedReceipts": [
+    {
+      "action": "Deploy Recusal contract",
+      "hash": "0x3502ea96b34393b967e4184f38460f18b157a7b536a2b947cad49d4e731567b7",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Freeze demonstration wallet map",
+      "hash": "0x33f4b78535e2b1ff944f0d547e8996955f1d5bf756b98f7d1e0a6c10601dd347",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Open assignment roster",
+      "hash": "0xe82e114f0a48bf5b82900e3e6400f71761eacffd8de6a05d6eed4d3ef02858be",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Open Application A case 1 (goals, approvals, assessment)",
+      "hash": "0xaaa1e56770138159742b81ef49722a4d2425d73de0f1fa0e7a77fb7e4c01a6f3",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Open Application A case 2 (same public panel)",
+      "hash": "0xb47f64be1d822cfde245636b21a5be6dd3364cd523ae8bfd91fb3c2da1739b66",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Open Application A case 3 (\"we worked together\")",
+      "hash": "0xd908745456644c6e7871a8f531a9ea7c10da56fbe3deebea1548a0befab6d9b9",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Open Application B case 4 (\"we worked together\")",
+      "hash": "0x9af01ee9e2bfb10323239ed846320d2aea05dee00ee73a5d5d9031c0d2e56665",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Adjudicate case 1: conflict, seat replaced",
+      "hash": "0xe242811d7c42b6e6ef09cb196baf50097fb6f92c6f702b610dc84c757b6ae8ae",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Adjudicate case 2: no conflict, seat kept",
+      "hash": "0x955ce2ddfed580a5c695b27717e55557f3b8531a7fee0a30ffebd01b58a247f3",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Adjudicate case 3: insufficient, on hold",
+      "hash": "0xd34a00a2f2065b9bb19e05d3a48c356e7a83b46076d64ca60f34bb20d572ffd5",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Case 4 ruling attempt 1: model answer malformed, no consensus, no state change",
+      "hash": "0xc3473de8c38ce727722f1ae865f56fef7bbaddbf73a35537d328457f6e5609ef",
+      "status": "FINALIZED",
+      "executionOutcome": "MAJORITY_DISAGREE: no consensus, contract state unchanged"
+    },
+    {
+      "action": "Adjudicate case 4: insufficient, on hold",
+      "hash": "0xf390f0f78971fc434d574b5f537222d701f10cd29ff6d4188927daa73165b639",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Clarify case 3 (single clarification)",
+      "hash": "0x91c956ea0c0ee9a094841004f5ec68c9f0d9fc940ed5aa53b2735340a51e13ce",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Re-adjudicate case 3 after clarification",
+      "hash": "0xe9b9d190c635773621c1448a3b491199f37709c8ea75409ee85cefd9e3a2242d",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Close expired case 4: seat vacant",
+      "hash": "0xef85dd3c9fec526cde62749726724dda8a96aa9a4743e09294d3fd78067951e2",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Open ballot",
+      "hash": "0x852f4faa1db5bf45827b680e9d4ed5f8af271ba052a89000bd58aca7c4b24997",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Former reviewer vote on A",
+      "hash": "0xb63168eb29e055bac7e95b577705861d013a0674501cf427c97d614458c79091",
+      "status": "FINALIZED",
+      "executionOutcome": "REJECTED ON-CHAIN: wallet is not eligible for this frozen seat"
+    },
+    {
+      "action": "Alternate vote on A",
+      "hash": "0x71b04de4efb660c9bb60978d5884c4359a5304f7cfeb249360edbb6926ccada5",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Reviewer two vote on A",
+      "hash": "0xdb65c4db485bd88ae996219c86853561d25fc1f9bd1def31f04694536cf588a6",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Reviewer three vote on A",
+      "hash": "0x1a753a32afbf1ef5e88abd2639ec1b2de1d43e9b930cd36d0ce1fb93912f69b4",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Shared reviewer vote on B",
+      "hash": "0x2cba91ef0bb500b450b7e84445b0779fb25cb4b99f764e7547a8e18d18f55aa8",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Reviewer two vote on B",
+      "hash": "0xe17f5028fc0adf6e404d0fa69a09a139a82e9ba107add2c8bd00823a61d67843",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Expired reviewer vote on vacant B seat 3",
+      "hash": "0x9a92d62d1766131ae4dbf889b481beee72a78a9b167896c16f4bd41ee813333f",
+      "status": "FINALIZED",
+      "executionOutcome": "REJECTED ON-CHAIN: wallet is not eligible for this frozen seat"
+    },
+    {
+      "action": "Finalize Application A",
+      "hash": "0x5ee9980b5e75500517d17daa1dd020cac1ef82711aa9fa3d021f2b55f377941d",
+      "status": "FINALIZED"
+    },
+    {
+      "action": "Finalize Application B",
+      "hash": "0x3e6d5073a9e3c3c2b4b2068207d99543baa20b31fa45b789517ef78f1b0b9080",
+      "status": "FINALIZED"
+    }
+  ]
+}

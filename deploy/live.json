@@ -1,0 +1,516 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "wallets": {
+    "steward": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "reviewer": "0x92c62D01102ED3c866720dC0a92004426402f27d",
+    "reviewer_two": "0xA0210946c7Cb12fed65ffcC06189Ed6425909e70",
+    "reviewer_three": "0xdC672271ab77c56d826289535A213d824d37B098",
+    "alternate_one": "0xC5ae7f0de1C462827401Cf25714AcB0558ED992b",
+    "alternate_two": "0xFA64C0Fb5899E9955020B5CAB33E36751f8c1Bc8",
+    "applicant_a": "0xb9515e3ed3AAD5A634bBb5cEC0ec274a73D9Cfd4",
+    "applicant_b": "0xE6077631278b00a55F56ecb7dCa71E269c2d1716"
+  },
+  "transactions": {
+    "fund-steward": "0xdc10b9a35d356a41acbdb7c7d46f9f11c38179ad42427fa75767344042048e9d",
+    "fund-reviewer": "0xad54eb4ad9c205e95fb3cc30da8c8a80ea46d3c42e49faafc30a6584742394f0",
+    "fund-reviewer_two": "0x07c00139d944c93e939c73355bedf184673f68d32560fafc4196b997a85b87d5",
+    "fund-reviewer_three": "0xb25161a2d45b13130c7f03528b82c8c1c90a6f8d2bf7998cfcaa122d763149cc",
+    "fund-alternate_one": "0x15bf49015673dc6abf79853be37cf0afc367f9d16523567067379d6d9d6bc196",
+    "fund-alternate_two": "0xc3d87ab14abad67e76ef0f6dd5f7b09529574a5fde1eb835606a6162cd31c5d0",
+    "fund-applicant_a": "0x3db3c7100136f38d51723988d408953420131fee8f5c7a82ce1aee9b7349f1f5",
+    "fund-applicant_b": "0xdbe9826f1cd34dc5e0732a78a4c3e3cd66846291b44443f4ae241232eaea20a8",
+    "deploy": "0x3502ea96b34393b967e4184f38460f18b157a7b536a2b947cad49d4e731567b7",
+    "configure-wallets": "0x33f4b78535e2b1ff944f0d547e8996955f1d5bf756b98f7d1e0a6c10601dd347",
+    "open-assignments": "0xe82e114f0a48bf5b82900e3e6400f71761eacffd8de6a05d6eed4d3ef02858be",
+    "open-supervision": "0xaaa1e56770138159742b81ef49722a4d2425d73de0f1fa0e7a77fb7e4c01a6f3",
+    "open-panel": "0xb47f64be1d822cfde245636b21a5be6dd3364cd523ae8bfd91fb3c2da1739b66",
+    "open-vague-clarified": "0xd908745456644c6e7871a8f531a9ea7c10da56fbe3deebea1548a0befab6d9b9",
+    "open-vague-expiring": "0x9af01ee9e2bfb10323239ed846320d2aea05dee00ee73a5d5d9031c0d2e56665",
+    "adjudicate-supervision": "0xe242811d7c42b6e6ef09cb196baf50097fb6f92c6f702b610dc84c757b6ae8ae",
+    "adjudicate-panel": "0x955ce2ddfed580a5c695b27717e55557f3b8531a7fee0a30ffebd01b58a247f3",
+    "adjudicate-vague-clarified": "0xd34a00a2f2065b9bb19e05d3a48c356e7a83b46076d64ca60f34bb20d572ffd5",
+    "adjudicate-vague-expiring": "0xc3473de8c38ce727722f1ae865f56fef7bbaddbf73a35537d328457f6e5609ef",
+    "adjudicate-vague-expiring-retry1": "0xf390f0f78971fc434d574b5f537222d701f10cd29ff6d4188927daa73165b639",
+    "clarify-vague-clarified": "0x91c956ea0c0ee9a094841004f5ec68c9f0d9fc940ed5aa53b2735340a51e13ce",
+    "adjudicate-vague-clarified-2": "0xe9b9d190c635773621c1448a3b491199f37709c8ea75409ee85cefd9e3a2242d",
+    "close-expired": "0xef85dd3c9fec526cde62749726724dda8a96aa9a4743e09294d3fd78067951e2",
+    "open-ballot": "0x852f4faa1db5bf45827b680e9d4ed5f8af271ba052a89000bd58aca7c4b24997",
+    "vote-rejected-former-reviewer-A": "0xb63168eb29e055bac7e95b577705861d013a0674501cf427c97d614458c79091",
+    "vote-A-alternate": "0x71b04de4efb660c9bb60978d5884c4359a5304f7cfeb249360edbb6926ccada5",
+    "vote-A-reviewer-two": "0xdb65c4db485bd88ae996219c86853561d25fc1f9bd1def31f04694536cf588a6",
+    "vote-A-reviewer-three": "0x1a753a32afbf1ef5e88abd2639ec1b2de1d43e9b930cd36d0ce1fb93912f69b4",
+    "vote-B-reviewer": "0x2cba91ef0bb500b450b7e84445b0779fb25cb4b99f764e7547a8e18d18f55aa8",
+    "vote-B-reviewer-two": "0xe17f5028fc0adf6e404d0fa69a09a139a82e9ba107add2c8bd00823a61d67843",
+    "vote-rejected-vacant-seat-B": "0x9a92d62d1766131ae4dbf889b481beee72a78a9b167896c16f4bd41ee813333f",
+    "finalize-A": "0x5ee9980b5e75500517d17daa1dd020cac1ef82711aa9fa3d021f2b55f377941d",
+    "finalize-B": "0x3e6d5073a9e3c3c2b4b2068207d99543baa20b31fa45b789517ef78f1b0b9080"
+  },
+  "outcomes": {
+    "deploy": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "configure-wallets": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "open-assignments": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "open-supervision": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "open-panel": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "open-vague-clarified": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "open-vague-expiring": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "adjudicate-supervision": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "adjudicate-panel": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "adjudicate-vague-clarified": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "adjudicate-vague-expiring": {
+      "executed": false,
+      "status": "FINALIZED"
+    },
+    "adjudicate-vague-expiring-retry1": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "clarify-vague-clarified": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "adjudicate-vague-clarified-2": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "close-expired": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "open-ballot": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "vote-rejected-former-reviewer-A": {
+      "executed": false,
+      "status": "FINALIZED"
+    },
+    "vote-A-alternate": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "vote-A-reviewer-two": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "vote-A-reviewer-three": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "vote-B-reviewer": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "vote-B-reviewer-two": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "vote-rejected-vacant-seat-B": {
+      "executed": false,
+      "status": "FINALIZED"
+    },
+    "finalize-A": {
+      "executed": true,
+      "status": "FINALIZED"
+    },
+    "finalize-B": {
+      "executed": true,
+      "status": "FINALIZED"
+    }
+  },
+  "contract": "0x1B18Bf76D50352C174aEeBAf1BeD9815CE3A43a3",
+  "submitters": {
+    "configure-wallets": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "open-assignments": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "open-supervision": "0xb9515e3ed3AAD5A634bBb5cEC0ec274a73D9Cfd4",
+    "open-panel": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "open-vague-clarified": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "open-vague-expiring": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "adjudicate-supervision": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "adjudicate-panel": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "adjudicate-vague-clarified": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "adjudicate-vague-expiring": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "adjudicate-vague-expiring-retry1": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "clarify-vague-clarified": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "adjudicate-vague-clarified-2": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "close-expired": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "open-ballot": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "vote-rejected-former-reviewer-A": "0x92c62D01102ED3c866720dC0a92004426402f27d",
+    "vote-A-alternate": "0xC5ae7f0de1C462827401Cf25714AcB0558ED992b",
+    "vote-A-reviewer-two": "0xA0210946c7Cb12fed65ffcC06189Ed6425909e70",
+    "vote-A-reviewer-three": "0xdC672271ab77c56d826289535A213d824d37B098",
+    "vote-B-reviewer": "0x92c62D01102ED3c866720dC0a92004426402f27d",
+    "vote-B-reviewer-two": "0xA0210946c7Cb12fed65ffcC06189Ed6425909e70",
+    "vote-rejected-vacant-seat-B": "0xdC672271ab77c56d826289535A213d824d37B098",
+    "finalize-A": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3",
+    "finalize-B": "0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3"
+  },
+  "caseIds": {
+    "supervision": "1",
+    "panel": "2",
+    "vague-clarified": "3",
+    "vague-expiring": "4"
+  },
+  "expiringOpenedAt": 1795466865,
+  "rulings": {
+    "supervision": {
+      "appId": "A",
+      "assignmentVersion": 1,
+      "challengeCutoff": 1795468095,
+      "clarificationUsed": false,
+      "decision": "CONFLICT",
+      "evidenceVersion": 1,
+      "explanation": "Setting the applicant's project goals, approving their work, and signing their performance assessment is direct supervision of the applicant's project work in substance, not merely co-appearing at a public event. This squarely meets the clause's prohibition on assessing an applicant whose project work the reviewer directly supervised, and the stated timing falls within the 24-month window (final date handling reserved for code). The supported date is inside the frozen 24-month window; code therefore records CONFLICT.",
+      "id": "1",
+      "openedAt": 1795466295,
+      "openedBy": "0xb9515e3ed3aad5a634bbb5cec0ec274a73d9cfd4",
+      "passage": "Six months before the round I set the applicant's project goals, approved their work, and signed their performance assessment.",
+      "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+      "policyVersion": "demo-grant-policy-v1",
+      "relationship": "The reviewer (discloser) acted as the applicant's direct supervisor: they defined the applicant's project goals, approved the applicant's project work, and signed the applicant's performance assessment, six months before the round.",
+      "relationshipDate": "2026-05-23",
+      "replacedWallet": "0x92c62d01102ed3c866720dc0a92004426402f27d",
+      "replacementWallet": "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+      "resolutionDeadline": 1795469895,
+      "rulings": [
+        {
+          "decision": "CONFLICT",
+          "disclosurePassage": "Six months before the round I set the applicant's project goals, approved their work, and signed their performance assessment.",
+          "evidenceVersion": 1,
+          "explanation": "Setting the applicant's project goals, approving their work, and signing their performance assessment is direct supervision of the applicant's project work in substance, not merely co-appearing at a public event. This squarely meets the clause's prohibition on assessing an applicant whose project work the reviewer directly supervised, and the stated timing falls within the 24-month window (final date handling reserved for code). The supported date is inside the frozen 24-month window; code therefore records CONFLICT.",
+          "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+          "policyVersion": "demo-grant-policy-v1",
+          "recordedAt": 1795466543,
+          "relationship": "The reviewer (discloser) acted as the applicant's direct supervisor: they defined the applicant's project goals, approved the applicant's project work, and signed the applicant's performance assessment, six months before the round.",
+          "relationshipDate": "2026-05-23"
+        }
+      ],
+      "seat": 0,
+      "status": "RESOLVED"
+    },
+    "panel": {
+      "appId": "A",
+      "assignmentVersion": 1,
+      "challengeCutoff": 1795468156,
+      "clarificationUsed": false,
+      "decision": "NO_CONFLICT",
+      "evidenceVersion": 1,
+      "explanation": "The clause expressly states that speaking at the same public event, without evidence of supervision, does not disqualify; the disclosure describes only shared panel speaking and denies any supervisory relationship. The disclosed conduct does not satisfy the frozen conduct clause.",
+      "id": "2",
+      "openedAt": 1795466356,
+      "openedBy": "0xaffd6cce80bb44406ccac874241f913ccd0ffae3",
+      "passage": "We spoke together on the same conference panel and expressly had no supervisory relationship.",
+      "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+      "policyVersion": "demo-grant-policy-v1",
+      "relationship": "Co-panelists at the same public conference event; no direct supervision of the applicant's project work is established.",
+      "relationshipDate": "2026-05-01",
+      "resolutionDeadline": 1795469956,
+      "rulings": [
+        {
+          "decision": "NO_CONFLICT",
+          "disclosurePassage": "We spoke together on the same conference panel and expressly had no supervisory relationship.",
+          "evidenceVersion": 1,
+          "explanation": "The clause expressly states that speaking at the same public event, without evidence of supervision, does not disqualify; the disclosure describes only shared panel speaking and denies any supervisory relationship. The disclosed conduct does not satisfy the frozen conduct clause.",
+          "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+          "policyVersion": "demo-grant-policy-v1",
+          "recordedAt": 1795466617,
+          "relationship": "Co-panelists at the same public conference event; no direct supervision of the applicant's project work is established.",
+          "relationshipDate": "2026-05-01"
+        }
+      ],
+      "seat": 1,
+      "status": "RESOLVED"
+    },
+    "vague-clarified": {
+      "appId": "A",
+      "assignmentVersion": 1,
+      "challengeCutoff": 1795468220,
+      "clarificationUsed": true,
+      "decision": "NO_CONFLICT",
+      "evidenceVersion": 2,
+      "explanation": "Ordinary peer pull-request review without goal-setting, approval authority, or performance assessment does not establish direct supervision of the applicant's project work. The disclosed conduct does not satisfy the frozen conduct clause.",
+      "id": "3",
+      "openedAt": 1795466420,
+      "openedBy": "0xaffd6cce80bb44406ccac874241f913ccd0ffae3",
+      "passage": "I reviewed one pull request in the same shared repository as an ordinary peer. I never set goals, approved work, or assessed their performance; we had no supervisory relationship.",
+      "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+      "policyVersion": "demo-grant-policy-v1",
+      "relationship": "The discloser reviewed one pull request as an ordinary peer and did not set goals, approve work, or assess the other party's performance.",
+      "relationshipDate": "2026-03-01",
+      "resolutionDeadline": 1795470020,
+      "rulings": [
+        {
+          "decision": "INSUFFICIENT",
+          "disclosurePassage": "We worked together last year.",
+          "evidenceVersion": 1,
+          "explanation": "The clause requires direct supervision of the applicant's project work. That relationship is not established by this disclosure.",
+          "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+          "policyVersion": "demo-grant-policy-v1",
+          "recordedAt": 1795466679,
+          "relationship": "The reviewer and applicant worked together, but the disclosure does not specify the work or whether the reviewer directly supervised the applicant's project work.",
+          "relationshipDate": ""
+        },
+        {
+          "decision": "NO_CONFLICT",
+          "disclosurePassage": "I reviewed one pull request in the same shared repository as an ordinary peer. I never set goals, approved work, or assessed their performance; we had no supervisory relationship.",
+          "evidenceVersion": 2,
+          "explanation": "Ordinary peer pull-request review without goal-setting, approval authority, or performance assessment does not establish direct supervision of the applicant's project work. The disclosed conduct does not satisfy the frozen conduct clause.",
+          "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+          "policyVersion": "demo-grant-policy-v1",
+          "recordedAt": 1795467253,
+          "relationship": "The discloser reviewed one pull request as an ordinary peer and did not set goals, approve work, or assess the other party's performance.",
+          "relationshipDate": "2026-03-01"
+        }
+      ],
+      "seat": 2,
+      "status": "RESOLVED"
+    },
+    "vague-expiring": {
+      "appId": "B",
+      "assignmentVersion": 1,
+      "challengeCutoff": 1795468282,
+      "clarificationUsed": false,
+      "decision": "INSUFFICIENT",
+      "evidenceVersion": 1,
+      "explanation": "No resolved ruling was recorded before the frozen resolution deadline; the seat is vacant.",
+      "id": "4",
+      "openedAt": 1795466482,
+      "openedBy": "0xaffd6cce80bb44406ccac874241f913ccd0ffae3",
+      "passage": "We worked together last year.",
+      "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+      "policyVersion": "demo-grant-policy-v1",
+      "relationship": "The disclosure says the reviewer and applicant worked together, but does not specify the work or establish that the reviewer directly supervised the applicant\u2019s project work.",
+      "relationshipDate": "",
+      "resolutionDeadline": 1795470082,
+      "rulings": [
+        {
+          "decision": "INSUFFICIENT",
+          "disclosurePassage": "We worked together last year.",
+          "evidenceVersion": 1,
+          "explanation": "The clause applies only to direct supervision of the applicant\u2019s project work; that relationship is not established.",
+          "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+          "policyVersion": "demo-grant-policy-v1",
+          "recordedAt": 1795466909,
+          "relationship": "The disclosure says the reviewer and applicant worked together, but does not specify the work or establish that the reviewer directly supervised the applicant\u2019s project work.",
+          "relationshipDate": ""
+        }
+      ],
+      "seat": 2,
+      "status": "EXPIRED_VACANT"
+    }
+  },
+  "roundAtBallot": {
+    "applications": {
+      "A": {
+        "alternates": [
+          "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+          "0xfa64c0fb5899e9955020b5cab33e36751f8c1bc8"
+        ],
+        "applicant": "0xb9515e3ed3aad5a634bbb5cec0ec274a73d9cfd4",
+        "ballot": [
+          "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+          "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+          "0xdc672271ab77c56d826289535a213d824d37b098"
+        ],
+        "holds": [
+          false,
+          false,
+          false
+        ],
+        "name": "Civic cooling map",
+        "result": "VOTING",
+        "seats": [
+          "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+          "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+          "0xdc672271ab77c56d826289535a213d824d37b098"
+        ],
+        "vacancies": [
+          false,
+          false,
+          false
+        ],
+        "versions": [
+          2,
+          1,
+          1
+        ],
+        "votes": [
+          "",
+          "",
+          ""
+        ]
+      },
+      "B": {
+        "alternates": [
+          "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+          "0xfa64c0fb5899e9955020b5cab33e36751f8c1bc8"
+        ],
+        "applicant": "0xe6077631278b00a55f56ecb7dca71e269c2d1716",
+        "ballot": [
+          "0x92c62d01102ed3c866720dc0a92004426402f27d",
+          "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+          ""
+        ],
+        "holds": [
+          false,
+          false,
+          false
+        ],
+        "name": "Library repair grants",
+        "result": "VOTING",
+        "seats": [
+          "0x92c62d01102ed3c866720dc0a92004426402f27d",
+          "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+          ""
+        ],
+        "vacancies": [
+          false,
+          false,
+          true
+        ],
+        "versions": [
+          1,
+          1,
+          2
+        ],
+        "votes": [
+          "",
+          "",
+          ""
+        ]
+      }
+    },
+    "demoWallets": false,
+    "featuredCase": "1",
+    "id": "recusal-microgrants-2026",
+    "outcomeRule": "A strict majority of recorded occupied-seat votes wins; ties are TIE; vacancies contribute no vote.",
+    "phase": "VOTING",
+    "policy": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+    "policyVersion": "demo-grant-policy-v1",
+    "referenceDate": "2026-11-23",
+    "steward": "0xaffd6cce80bb44406ccac874241f913ccd0ffae3",
+    "title": "Fictional microgrant review"
+  },
+  "finalRound": {
+    "applications": {
+      "A": {
+        "alternates": [
+          "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+          "0xfa64c0fb5899e9955020b5cab33e36751f8c1bc8"
+        ],
+        "applicant": "0xb9515e3ed3aad5a634bbb5cec0ec274a73d9cfd4",
+        "ballot": [
+          "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+          "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+          "0xdc672271ab77c56d826289535a213d824d37b098"
+        ],
+        "holds": [
+          false,
+          false,
+          false
+        ],
+        "name": "Civic cooling map",
+        "result": "YES",
+        "seats": [
+          "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+          "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+          "0xdc672271ab77c56d826289535a213d824d37b098"
+        ],
+        "vacancies": [
+          false,
+          false,
+          false
+        ],
+        "versions": [
+          2,
+          1,
+          1
+        ],
+        "votes": [
+          "1",
+          "1",
+          "0"
+        ]
+      },
+      "B": {
+        "alternates": [
+          "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+          "0xfa64c0fb5899e9955020b5cab33e36751f8c1bc8"
+        ],
+        "applicant": "0xe6077631278b00a55f56ecb7dca71e269c2d1716",
+        "ballot": [
+          "0x92c62d01102ed3c866720dc0a92004426402f27d",
+          "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+          ""
+        ],
+        "holds": [
+          false,
+          false,
+          false
+        ],
+        "name": "Library repair grants",
+        "result": "YES",
+        "seats": [
+          "0x92c62d01102ed3c866720dc0a92004426402f27d",
+          "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+          ""
+        ],
+        "vacancies": [
+          false,
+          false,
+          true
+        ],
+        "versions": [
+          1,
+          1,
+          2
+        ],
+        "votes": [
+          "1",
+          "1",
+          ""
+        ]
+      }
+    },
+    "demoWallets": false,
+    "featuredCase": "1",
+    "id": "recusal-microgrants-2026",
+    "outcomeRule": "A strict majority of recorded occupied-seat votes wins; ties are TIE; vacancies contribute no vote.",
+    "phase": "FINALIZED",
+    "policy": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+    "policyVersion": "demo-grant-policy-v1",
+    "referenceDate": "2026-11-23",
+    "steward": "0xaffd6cce80bb44406ccac874241f913ccd0ffae3",
+    "title": "Fictional microgrant review"
+  }
+}

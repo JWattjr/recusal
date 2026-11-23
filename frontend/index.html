@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3f0e8" />
+    <meta name="description" content="A public, fictional microgrant round showing how a disclosed relationship changes one review seat." />
+    <title>Recusal — review, in the open</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./wallet.css" />
+    <script src="./vendor/genlayer.js"></script>
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to the ruling</a>
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Recusal home">
+        <span class="seal" aria-hidden="true">R</span>
+        <span>Recusal</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#featured-ruling">The ruling</a>
+        <a href="#panel">Panel & ballot</a>
+        <a href="#records">Records</a>
+      </nav>
+      <div class="header-actions">
+        <span id="networkState" class="network-state"><span class="status-dot"></span>Read-only demo</span>
+        <button id="connectButton" class="button button-dark" type="button">Connect wallet</button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="intro" id="top">
+        <div class="intro-copy">
+          <p class="dateline"><span>Fictional microgrant round</span><span class="dateline-rule"></span><time datetime="2026-11-23">23 November 2026</time></p>
+          <h1>A fair panel<br /><em>can show its work.</em></h1>
+          <p class="intro-text">One reviewer sits on two applications. A conflict changes one seat; the other assignment stays intact. The rule, evidence, and ballot are open to inspect.</p>
+          <a class="text-link" href="#featured-ruling">Inspect this ruling <span aria-hidden="true">↘</span></a>
+        </div>
+        <div class="intro-stamp" aria-label="Demo grant policy, version one">
+          <span>DEMO GRANT</span><strong>POLICY</strong><span>VERSION 01 · FROZEN</span>
+        </div>
+      </section>
+
+      <div class="notice-line" role="note">
+        <span class="notice-mark" aria-hidden="true">i</span>
+        <p><strong>Public demonstration.</strong> Names, applications, relationships, and disclosures are fictional. This is not an official grant or conference policy. Demo wallets may be controlled by one operator.</p>
+        <span id="modeBadge" class="mode-badge">POLICY EXAMPLE</span>
+      </div>
+      <p id="walletPrompt" class="wallet-prompt">Read-only inspection is open. Connect a wallet to see its next participant action.</p>
+
+      <section id="featured-ruling" class="ruling-section" aria-labelledby="ruling-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Featured case <span>·</span> Application A</p>
+            <h2 id="ruling-title">A seat changes.<br /><em>The rule stays put.</em></h2>
+          </div>
+          <div id="decisionBadge" class="decision-badge conflict"><span class="decision-dot"></span><span>CONFLICT</span></div>
+        </div>
+
+        <div class="ruling-grid">
+          <article class="evidence-column" aria-label="Ruling evidence">
+            <div class="policy-block">
+              <div class="block-label"><span class="index-mark">§</span><span>Frozen clause · demo grant policy v1</span><span class="freeze-mark">FROZEN</span></div>
+              <blockquote id="policyText">A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.</blockquote>
+            </div>
+            <div class="disclosure-block">
+              <div class="block-label"><span class="index-mark">“</span><span>Relevant disclosure passage <span id="evidenceVersion" class="version-tag">Evidence v1</span></span></div>
+              <blockquote id="disclosureText" class="disclosure-quote">“Six months before the round I set Mara’s project goals, approved her work, and signed her performance assessment.”</blockquote>
+              <p class="person-line"><span class="person-dot"></span>Rowan Hale, reviewer <span class="relationship-arrow">→</span> Mara Lin, applicant</p>
+            </div>
+            <div class="finding-block">
+              <div class="block-label"><span class="index-mark">↳</span><span>Relationship established</span></div>
+              <p id="relationshipText" class="finding-text">The reviewer set the applicant’s goals, approved project work, and signed a performance assessment. Those acts establish direct supervision under the clause.</p>
+              <p id="explanationText" class="explanation-text">The supported date falls inside the frozen 24-month window; code applies the date comparison and records CONFLICT.</p>
+            </div>
+            <div class="ruling-meta"><span id="rulingSource">Illustrative record · no contract receipt</span><span id="caseDeadlines">Example case windows · 30 minutes from opening · resolution 30 minutes later</span><span id="caseStatus">Policy example</span></div>
+          </article>
+
+          <aside class="roster-column" id="panel" aria-label="Panel before and after ruling">
+            <div class="roster-topline"><span>Assignment change</span><span id="appName">Civic cooling map</span></div>
+            <div class="roster-state before-state">
+              <div class="roster-heading"><span>Before ruling</span><span>3 seats</span></div>
+              <ol id="beforeRoster" class="seat-list"></ol>
+            </div>
+            <div class="change-connector" aria-hidden="true"><span></span><span class="change-arrow">↓</span><span></span></div>
+            <div class="roster-state after-state">
+              <div class="roster-heading"><span>After ruling</span><span id="afterCount">3 eligible</span></div>
+              <ol id="afterRoster" class="seat-list"></ol>
+            </div>
+            <div class="change-note"><span class="change-icon" aria-hidden="true">↗</span><p><strong id="seatChange">Seat 1 · Rowan Hale → Jules Park</strong><br /><span id="seatChangeNote">Conflict applies to Application A only.</span></p></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="scope-section" aria-labelledby="scope-title">
+        <div class="scope-heading">
+          <p class="section-kicker">Scope check <span>·</span> the same reviewer, two assignments</p>
+          <h2 id="scope-title">A changes.<br /><em>B does not.</em></h2>
+        </div>
+        <div class="scope-table" id="scope-table" role="table" aria-label="Reviewer scope across applications">
+          <div class="scope-row scope-header" role="row"><span role="columnheader">Application</span><span role="columnheader">Assignment</span><span role="columnheader">Ballot result</span><span role="columnheader">Scope</span></div>
+          <div class="scope-row" role="row"><span class="application-cell"><b>A</b><span>Civic cooling map</span></span><span class="assignment-cell"><span class="strike-name">Rowan Hale</span><span class="replacement-name">Jules Park <small>alternate 1</small></span></span><span class="result-cell"><span class="status-label conflict-label">RECUSAL · CONFLICT</span></span><span class="scope-cell">This application</span></div>
+          <div class="scope-row" role="row"><span class="application-cell"><b>B</b><span>Library repair grants</span></span><span class="assignment-cell"><span>Rowan Hale <small>seat 1</small></span></span><span class="result-cell"><span class="status-label eligible-label">ELIGIBLE · VOTE RECORDED</span></span><span class="scope-cell">Unaffected</span></div>
+        </div>
+        <p class="scope-caption" id="scopeCaption">The disqualification key includes the application. Rowan’s address is rejected for A’s recused seat and remains eligible for B’s frozen seat.</p>
+      </section>
+
+      <section class="proof-section" aria-labelledby="proof-title">
+        <div class="proof-intro"><p class="section-kicker">Featured proof</p><h2 id="proof-title">The roster is<br /><em>enforced at the ballot.</em></h2><p>A ruling matters only if the contract changes who may vote.</p></div>
+        <ol class="proof-steps" id="proofSteps">
+          <li><span class="proof-number">01</span><div><strong>Former reviewer · Application A</strong><p>The former reviewer must be rejected for the frozen-seat eligibility rule.</p><span class="proof-observation example-observation">Awaiting the on-chain rejection receipt</span></div><span class="proof-check">·</span></li>
+          <li><span class="proof-number">02</span><div><strong>Same reviewer · Application B</strong><p>B’s independent assignment remains eligible.</p><span class="proof-observation example-observation">Awaiting the on-chain vote receipt</span></div><span class="proof-check">·</span></li>
+          <li><span class="proof-number">03</span><div><strong>Alternate reviewer · Application A</strong><p>The promoted alternate can vote in the affected A seat.</p><span class="proof-observation example-observation">Awaiting the on-chain vote receipt</span></div><span class="proof-check">·</span></li>
+        </ol>
+        <div class="proof-footer"><span class="proof-legend"><i class="legend-dot example-dot"></i>Policy example</span><span class="proof-legend"><i class="legend-dot chain-dot"></i>Finalized StudioNet receipt</span><span id="proofLiveState">Loading recorded receipts</span></div>
+      </section>
+
+      <section class="scenario-section" aria-labelledby="scenario-title">
+        <div class="scenario-heading"><div><p class="section-kicker">Policy stress test</p><h2 id="scenario-title">Three records.<br /><em>Three different answers.</em></h2></div><p>Validators judge conduct. Code compares supported dates with the frozen reference date.</p></div>
+        <div class="scenario-table">
+          <button class="scenario-row" type="button" data-scenario="panel" aria-pressed="false"><span class="scenario-symbol no-symbol">○</span><span class="scenario-copy"><strong>Same public panel</strong><small>“We spoke on the same conference panel and had no supervisory relationship.”</small></span><span class="scenario-outcome">NO_CONFLICT</span><span class="scenario-arrow">↗</span></button>
+          <button class="scenario-row active" type="button" data-scenario="supervision" aria-pressed="true"><span class="scenario-symbol yes-symbol">●</span><span class="scenario-copy"><strong>Goals, approvals, assessment</strong><small>Project goals set, work approved, assessment signed six months before the round.</small></span><span class="scenario-outcome">CONFLICT</span><span class="scenario-arrow">↗</span></button>
+          <button class="scenario-row" type="button" data-scenario="vague" aria-pressed="false"><span class="scenario-symbol hold-symbol">△</span><span class="scenario-copy"><strong>“We worked together”</strong><small>No conduct detail and no usable relationship date.</small></span><span class="scenario-outcome">INSUFFICIENT</span><span class="scenario-arrow">↗</span></button>
+        </div>
+        <p class="scenario-footnote">These fictional records illustrate the policy. Selecting one does not submit a contract transaction.</p>
+      </section>
+
+      <section id="records" class="records-section" aria-labelledby="records-title">
+        <div class="records-heading"><div><p class="section-kicker">Evidence ledger</p><h2 id="records-title">Receipts and reads,<br /><em>kept distinct.</em></h2></div><p>Transaction receipts describe finalized actions. Contract reads show current state. Fictional policy examples are labeled separately.</p></div>
+        <div class="record-columns">
+          <article class="record-column"><div class="record-column-heading"><span class="record-icon receipt-icon">↗</span><div><h3>Recorded receipts</h3><p>Finalized StudioNet receipts; browser wallet submissions are labeled separately</p></div></div><ul id="receiptList" class="record-list"><li class="empty-record">Loading recorded receipts…</li></ul></article>
+          <article class="record-column"><div class="record-column-heading"><span class="record-icon read-icon">◉</span><div><h3>Current contract reads</h3><p id="contractReadState">No contract address configured</p></div></div><div id="contractReadSummary" class="read-summary">The public dossier is showing an illustrative policy example.</div><a id="explorerLink" class="explorer-link hidden" target="_blank" rel="noreferrer">Open GenLayer Explorer contract <span aria-hidden="true">↗</span></a></article>
+        </div>
+      </section>
+
+      <details class="steward-tools" id="steward-tools">
+        <summary><span><strong>Steward desk</strong><small>Connect a wallet to use the deployed contract</small></span><span class="summary-mark">+</span></summary>
+        <div class="tools-content">
+          <div class="tools-note"><p><strong>Wallet actions are optional.</strong> This page opens for unsigned visitors. A live contract address enables public reads; a connected wallet enables signed actions. The fictional policy examples do not submit transactions.</p><label for="contractInput">GenLayer contract address</label><div class="input-action"><input id="contractInput" type="text" placeholder="0x…" inputmode="text" autocomplete="off" /><button id="saveContract" class="button button-outline" type="button">Load address</button></div></div>
+          <div class="wallet-map"><h3>Freeze demo wallet map</h3><p>Steward-only, before assignments open. Use seven distinct demo wallets; do not use confidential or real applicant data.</p><div class="wallet-grid">
+            <label>Reviewer · shared on A and B<input id="walletReviewer" placeholder="0x reviewer wallet" /></label><label>Reviewer 2<input id="walletReviewer2" placeholder="0x reviewer wallet" /></label><label>Reviewer 3<input id="walletReviewer3" placeholder="0x reviewer wallet" /></label><label>Alternate 1<input id="walletAlternate1" placeholder="0x alternate wallet" /></label><label>Alternate 2<input id="walletAlternate2" placeholder="0x alternate wallet" /></label><label>Applicant A<input id="walletApplicantA" placeholder="0x applicant wallet" /></label><label>Applicant B<input id="walletApplicantB" placeholder="0x applicant wallet" /></label>
+          </div><button id="configureWallets" class="button button-dark" type="button">Save wallet map</button></div>
+          <div class="action-grid">
+            <div><h3>Round & case</h3><div class="action-buttons"><button data-action="open_assignments">Open assignments</button><button data-action="open_case">Open case</button><button data-action="adjudicate">Request GenLayer ruling</button><button data-action="clarify">Submit one clarification</button><button data-action="close_expired">Close expired seat</button></div></div>
+            <div><h3>Ballot</h3><label>Application<select id="actionApplication"><option value="A">A · Civic cooling map</option><option value="B">B · Library repair grants</option></select></label><label>Seat<select id="actionSeat"><option value="0">Seat 1</option><option value="1">Seat 2</option><option value="2">Seat 3</option></select></label><label>Disclosure passage<textarea id="actionPassage" rows="3">Six months before the round I set the applicant’s project goals, approved her work, and signed her performance assessment.</textarea></label><label>Supported relationship date<input id="actionDate" type="date" /></label><label>Case ID<input id="actionCaseId" placeholder="Case number from contract read" /></label><div class="action-buttons"><button data-action="open_ballot">Open ballot</button><button data-action="vote_yes">Vote yes</button><button data-action="vote_no">Vote no</button><button data-action="finalize">Finalize result</button></div></div>
+          </div>
+          <p id="actionFeedback" class="action-feedback" role="status" aria-live="polite">No wallet action submitted.</p>
+        </div>
+      </details>
+    </main>
+
+    <footer class="site-footer"><a class="wordmark" href="#top"><span class="seal" aria-hidden="true">R</span><span>Recusal</span></a><p>Fictional demo · StudioNet contract reads appear only when an address is configured.</p><a href="#top" class="back-top">Back to top ↑</a></footer>
+  </body>
+</html>
