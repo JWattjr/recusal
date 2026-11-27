@@ -1,3 +1,11 @@
 .wallet-prompt{margin:-52px 0 58px;padding:9px 12px;border-left:2px solid #a99a75;background:#eeece3;color:var(--muted);font-size:10px;line-height:1.5}.wallet-prompt.connected{border-color:var(--green);color:var(--green)}
 .ruling-meta{flex-wrap:wrap;gap:7px 15px}.ruling-meta #caseDeadlines{color:#727a70;font-size:8px}
+.wallet-receipts-link,.proof-receipt-link{color:var(--green);font-size:10px;text-underline-offset:3px}
+.wallet-receipts-link{display:inline-block;margin-top:9px}
+.receipt-item button[data-track-receipt]{display:block;margin-top:5px;padding:3px 5px;border:1px solid var(--line);background:var(--white);color:var(--green);font:inherit}
+.action-feedback[data-state="success"]{color:var(--green);border-color:var(--green)}
+.action-feedback[data-state="error"]{color:var(--rust);border-color:var(--rust)}
+.wallet-path-evidence{margin-top:12px;padding:12px 16px;border:1px solid var(--line);background:var(--white);font-size:11px}
+.wallet-path-evidence summary{cursor:pointer;font-weight:700}
+.wallet-path-evidence p{color:var(--muted)}
 @media(max-width:620px){.wallet-prompt{margin:-35px 0 42px;font-size:9px}}

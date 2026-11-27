@@ -145,5 +145,246 @@
       "hash": "0x3e6d5073a9e3c3c2b4b2068207d99543baa20b31fa45b789517ef78f1b0b9080",
       "status": "FINALIZED"
     }
-  ]
+  ],
+  "recordedRound": {
+    "round": {
+      "applications": {
+        "A": {
+          "alternates": [
+            "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+            "0xfa64c0fb5899e9955020b5cab33e36751f8c1bc8"
+          ],
+          "applicant": "0xb9515e3ed3aad5a634bbb5cec0ec274a73d9cfd4",
+          "ballot": [
+            "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+            "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+            "0xdc672271ab77c56d826289535a213d824d37b098"
+          ],
+          "holds": [
+            false,
+            false,
+            false
+          ],
+          "name": "Civic cooling map",
+          "result": "YES",
+          "seats": [
+            "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+            "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+            "0xdc672271ab77c56d826289535a213d824d37b098"
+          ],
+          "vacancies": [
+            false,
+            false,
+            false
+          ],
+          "versions": [
+            2,
+            1,
+            1
+          ],
+          "votes": [
+            "1",
+            "1",
+            "0"
+          ]
+        },
+        "B": {
+          "alternates": [
+            "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+            "0xfa64c0fb5899e9955020b5cab33e36751f8c1bc8"
+          ],
+          "applicant": "0xe6077631278b00a55f56ecb7dca71e269c2d1716",
+          "ballot": [
+            "0x92c62d01102ed3c866720dc0a92004426402f27d",
+            "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+            ""
+          ],
+          "holds": [
+            false,
+            false,
+            false
+          ],
+          "name": "Library repair grants",
+          "result": "YES",
+          "seats": [
+            "0x92c62d01102ed3c866720dc0a92004426402f27d",
+            "0xa0210946c7cb12fed65ffcc06189ed6425909e70",
+            ""
+          ],
+          "vacancies": [
+            false,
+            false,
+            true
+          ],
+          "versions": [
+            1,
+            1,
+            2
+          ],
+          "votes": [
+            "1",
+            "1",
+            ""
+          ]
+        }
+      },
+      "demoWallets": false,
+      "featuredCase": "1",
+      "id": "recusal-microgrants-2026",
+      "outcomeRule": "A strict majority of recorded occupied-seat votes wins; ties are TIE; vacancies contribute no vote.",
+      "phase": "FINALIZED",
+      "policy": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+      "policyVersion": "demo-grant-policy-v1",
+      "referenceDate": "2026-11-23",
+      "steward": "0xaffd6cce80bb44406ccac874241f913ccd0ffae3",
+      "title": "Fictional microgrant review"
+    },
+    "cases": [
+      {
+        "appId": "A",
+        "assignmentVersion": 1,
+        "challengeCutoff": 1795468095,
+        "clarificationUsed": false,
+        "decision": "CONFLICT",
+        "evidenceVersion": 1,
+        "explanation": "Setting the applicant's project goals, approving their work, and signing their performance assessment is direct supervision of the applicant's project work in substance, not merely co-appearing at a public event. This squarely meets the clause's prohibition on assessing an applicant whose project work the reviewer directly supervised, and the stated timing falls within the 24-month window (final date handling reserved for code). The supported date is inside the frozen 24-month window; code therefore records CONFLICT.",
+        "id": "1",
+        "openedAt": 1795466295,
+        "openedBy": "0xb9515e3ed3aad5a634bbb5cec0ec274a73d9cfd4",
+        "passage": "Six months before the round I set the applicant's project goals, approved their work, and signed their performance assessment.",
+        "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+        "policyVersion": "demo-grant-policy-v1",
+        "relationship": "The reviewer (discloser) acted as the applicant's direct supervisor: they defined the applicant's project goals, approved the applicant's project work, and signed the applicant's performance assessment, six months before the round.",
+        "relationshipDate": "2026-05-23",
+        "replacedWallet": "0x92c62d01102ed3c866720dc0a92004426402f27d",
+        "replacementWallet": "0xc5ae7f0de1c462827401cf25714acb0558ed992b",
+        "resolutionDeadline": 1795469895,
+        "rulings": [
+          {
+            "decision": "CONFLICT",
+            "disclosurePassage": "Six months before the round I set the applicant's project goals, approved their work, and signed their performance assessment.",
+            "evidenceVersion": 1,
+            "explanation": "Setting the applicant's project goals, approving their work, and signing their performance assessment is direct supervision of the applicant's project work in substance, not merely co-appearing at a public event. This squarely meets the clause's prohibition on assessing an applicant whose project work the reviewer directly supervised, and the stated timing falls within the 24-month window (final date handling reserved for code). The supported date is inside the frozen 24-month window; code therefore records CONFLICT.",
+            "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+            "policyVersion": "demo-grant-policy-v1",
+            "recordedAt": 1795466543,
+            "relationship": "The reviewer (discloser) acted as the applicant's direct supervisor: they defined the applicant's project goals, approved the applicant's project work, and signed the applicant's performance assessment, six months before the round.",
+            "relationshipDate": "2026-05-23"
+          }
+        ],
+        "seat": 0,
+        "status": "RESOLVED"
+      },
+      {
+        "appId": "A",
+        "assignmentVersion": 1,
+        "challengeCutoff": 1795468156,
+        "clarificationUsed": false,
+        "decision": "NO_CONFLICT",
+        "evidenceVersion": 1,
+        "explanation": "The clause expressly states that speaking at the same public event, without evidence of supervision, does not disqualify; the disclosure describes only shared panel speaking and denies any supervisory relationship. The disclosed conduct does not satisfy the frozen conduct clause.",
+        "id": "2",
+        "openedAt": 1795466356,
+        "openedBy": "0xaffd6cce80bb44406ccac874241f913ccd0ffae3",
+        "passage": "We spoke together on the same conference panel and expressly had no supervisory relationship.",
+        "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+        "policyVersion": "demo-grant-policy-v1",
+        "relationship": "Co-panelists at the same public conference event; no direct supervision of the applicant's project work is established.",
+        "relationshipDate": "2026-05-01",
+        "resolutionDeadline": 1795469956,
+        "rulings": [
+          {
+            "decision": "NO_CONFLICT",
+            "disclosurePassage": "We spoke together on the same conference panel and expressly had no supervisory relationship.",
+            "evidenceVersion": 1,
+            "explanation": "The clause expressly states that speaking at the same public event, without evidence of supervision, does not disqualify; the disclosure describes only shared panel speaking and denies any supervisory relationship. The disclosed conduct does not satisfy the frozen conduct clause.",
+            "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+            "policyVersion": "demo-grant-policy-v1",
+            "recordedAt": 1795466617,
+            "relationship": "Co-panelists at the same public conference event; no direct supervision of the applicant's project work is established.",
+            "relationshipDate": "2026-05-01"
+          }
+        ],
+        "seat": 1,
+        "status": "RESOLVED"
+      },
+      {
+        "appId": "A",
+        "assignmentVersion": 1,
+        "challengeCutoff": 1795468220,
+        "clarificationUsed": true,
+        "decision": "NO_CONFLICT",
+        "evidenceVersion": 2,
+        "explanation": "Ordinary peer pull-request review without goal-setting, approval authority, or performance assessment does not establish direct supervision of the applicant's project work. The disclosed conduct does not satisfy the frozen conduct clause.",
+        "id": "3",
+        "openedAt": 1795466420,
+        "openedBy": "0xaffd6cce80bb44406ccac874241f913ccd0ffae3",
+        "passage": "I reviewed one pull request in the same shared repository as an ordinary peer. I never set goals, approved work, or assessed their performance; we had no supervisory relationship.",
+        "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+        "policyVersion": "demo-grant-policy-v1",
+        "relationship": "The discloser reviewed one pull request as an ordinary peer and did not set goals, approve work, or assess the other party's performance.",
+        "relationshipDate": "2026-03-01",
+        "resolutionDeadline": 1795470020,
+        "rulings": [
+          {
+            "decision": "INSUFFICIENT",
+            "disclosurePassage": "We worked together last year.",
+            "evidenceVersion": 1,
+            "explanation": "The clause requires direct supervision of the applicant's project work. That relationship is not established by this disclosure.",
+            "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+            "policyVersion": "demo-grant-policy-v1",
+            "recordedAt": 1795466679,
+            "relationship": "The reviewer and applicant worked together, but the disclosure does not specify the work or whether the reviewer directly supervised the applicant's project work.",
+            "relationshipDate": ""
+          },
+          {
+            "decision": "NO_CONFLICT",
+            "disclosurePassage": "I reviewed one pull request in the same shared repository as an ordinary peer. I never set goals, approved work, or assessed their performance; we had no supervisory relationship.",
+            "evidenceVersion": 2,
+            "explanation": "Ordinary peer pull-request review without goal-setting, approval authority, or performance assessment does not establish direct supervision of the applicant's project work. The disclosed conduct does not satisfy the frozen conduct clause.",
+            "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+            "policyVersion": "demo-grant-policy-v1",
+            "recordedAt": 1795467253,
+            "relationship": "The discloser reviewed one pull request as an ordinary peer and did not set goals, approve work, or assess the other party's performance.",
+            "relationshipDate": "2026-03-01"
+          }
+        ],
+        "seat": 2,
+        "status": "RESOLVED"
+      },
+      {
+        "appId": "B",
+        "assignmentVersion": 1,
+        "challengeCutoff": 1795468282,
+        "clarificationUsed": false,
+        "decision": "INSUFFICIENT",
+        "evidenceVersion": 1,
+        "explanation": "No resolved ruling was recorded before the frozen resolution deadline; the seat is vacant.",
+        "id": "4",
+        "openedAt": 1795466482,
+        "openedBy": "0xaffd6cce80bb44406ccac874241f913ccd0ffae3",
+        "passage": "We worked together last year.",
+        "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+        "policyVersion": "demo-grant-policy-v1",
+        "relationship": "The disclosure says the reviewer and applicant worked together, but does not specify the work or establish that the reviewer directly supervised the applicant\u2019s project work.",
+        "relationshipDate": "",
+        "resolutionDeadline": 1795470082,
+        "rulings": [
+          {
+            "decision": "INSUFFICIENT",
+            "disclosurePassage": "We worked together last year.",
+            "evidenceVersion": 1,
+            "explanation": "The clause applies only to direct supervision of the applicant\u2019s project work; that relationship is not established.",
+            "policyClause": "A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.",
+            "policyVersion": "demo-grant-policy-v1",
+            "recordedAt": 1795466909,
+            "relationship": "The disclosure says the reviewer and applicant worked together, but does not specify the work or establish that the reviewer directly supervised the applicant\u2019s project work.",
+            "relationshipDate": ""
+          }
+        ],
+        "seat": 2,
+        "status": "EXPIRED_VACANT"
+      }
+    ]
+  }
 }

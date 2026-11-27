@@ -153,19 +153,38 @@ CLARIFICATION = ('I reviewed one pull request in the same shared repository as a
                  'approved work, or assessed their performance; we had no supervisory relationship.')
 
 
-def main():
-    stage = sys.argv[1] if len(sys.argv) > 1 else 'all'
-    fund()
+def deploy_if_needed(label):
     if 'contract' not in STATE:
         code = (ROOT / 'contracts/recusal.py').read_text(encoding='utf-8')
         if not code.startswith('# { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }'):
             raise RuntimeError('runner header changed')
-        result = tx('deploy', 'steward', code=code, heavy=True)
+        result = tx(label, 'steward', code=code, heavy=True)
         STATE['contract'] = (result.get('data') or {}).get('contract_address') or result.get('to_address') or result.get('recipient')
         if not STATE['contract']:
             raise RuntimeError('no contract address in deployment receipt')
         save()
     print('contract', STATE['contract'])
+
+
+def prepare_wallet_path():
+    global LIVE, STATE
+    LIVE = ROOT / 'deploy/receipts/wallet-path-run.json'
+    LIVE.parent.mkdir(parents=True, exist_ok=True)
+    if LIVE.exists():
+        STATE = json.loads(LIVE.read_text(encoding='utf-8'))
+    else:
+        STATE = {'network': 'studionet', 'chainId': 61999, 'wallets': ADDR, 'transactions': {}, 'outcomes': {}}
+    if STATE['wallets'] != ADDR:
+        raise RuntimeError('This verification round belongs to a different test wallet map.')
+    deploy_if_needed('wallet-path-deploy')
+
+
+def main():
+    if sys.argv[1:] == ['--prepare-wallet-path']:
+        prepare_wallet_path()
+        return
+    fund()
+    deploy_if_needed('deploy')
     tx('configure-wallets', 'steward', 'configure_wallets',
        [ADDR['reviewer'], ADDR['reviewer_two'], ADDR['reviewer_three'], ADDR['alternate_one'],
         ADDR['alternate_two'], ADDR['applicant_a'], ADDR['applicant_b']])

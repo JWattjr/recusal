@@ -7,6 +7,8 @@ s = json.loads((ROOT / 'deploy/live.json').read_text(encoding='utf-8'))
 T = s['transactions']
 C = s['contract']
 E = 'https://explorer-studio.genlayer.com'
+wallet_path = ROOT / 'deploy/wallet-path.json'
+wallet_proof = json.loads(wallet_path.read_text(encoding='utf-8')) if wallet_path.is_file() else None
 
 
 def tx(key):
@@ -41,6 +43,27 @@ ROWS = [
 ]
 table = '\n'.join(f'| {label} | [{T[key][:10]}…]({tx(key)}) |' for label, key in ROWS)
 wallets = '\n'.join(f'- {role}: `{address}`' for role, address in s['wallets'].items())
+wallet_section = ''
+wallet_portal_row = ''
+if wallet_proof:
+    wallet_table = '\n'.join(
+        f"| {item['action']} | [{item['hash']}]({E}/tx/{item['hash']}) | {item['status']} / {item['executionOutcome']} |"
+        for item in wallet_proof['receipts']
+    )
+    wallet_section = f'''
+## App wallet path
+
+[GenLayer Explorer Contract for the verification round]({wallet_proof['explorerUrl']}) on StudioNet, chain 61999.
+
+The verification harness executes the app's JavaScript controls and GenLayer SDK with an injected EIP-1193 provider. The provider signs the SDK's StudioNet transaction envelopes with the project's ignored test keys. The verification round uses the same contract source as the completed public demo. The app's receipt tracker observed each submitted action reach finality and distinguished execution success from rejection.
+
+| Action | Receipt | Final result |
+|---|---|---|
+{wallet_table}
+
+The same signer submitted both the rejected A vote and accepted B vote. The alternate signed the successful A vote. After the case deadline, a wallet other than the steward closed the vacant B seat and opened the ballot. Final public reads showed A and B at YES and B's expired seat empty in the frozen ballot.
+'''
+    wallet_portal_row = f"| GenLayer Explorer Contract | Recusal wallet path verification · StudioNet | {wallet_proof['explorerUrl']} |\n"
 
 manifest = f'''# Proof manifest
 
@@ -69,7 +92,7 @@ manifest = f'''# Proof manifest
 {table}
 
 Two receipts are expected failures by design (the rejected votes). One (case 4, attempt 1) is a consensus disagreement caused by a malformed model answer; it changed no state and was resubmitted.
-
+{wallet_section}
 ## Test wallets (public addresses, fictional roles)
 
 {wallets}
@@ -99,6 +122,11 @@ Projects
 ## Name
 Recusal
 
+## Tags
+Primary: Dispute Resolution
+
+Focus: Evidence Assessment
+
 ## One-liner
 A grants panel can show its work: conflict rulings that change who can actually vote.
 
@@ -106,10 +134,13 @@ A grants panel can show its work: conflict rulings that change who can actually 
 {desc}
 
 ## Demo URL
-Add the YouTube link for the demo video when it exists.
+Optional. The website link opens the interactive demo.
+
+## Website
+https://recusal.vercel.app
 
 ## Reviewer steps
-1. Open https://recusal.vercel.app. The featured ruling loads without a wallet; the badge reads LIVE CONTRACT READ.
+1. Open https://recusal.vercel.app/#featured-ruling. The featured ruling loads without a wallet and shows LIVE CONTRACT READ.
 2. Read the frozen clause beside the disclosure, the validator's relationship finding, and the before/after roster for Application A.
 3. In the scope check, confirm the same reviewer is replaced on A but unchanged on B.
 4. In Featured proof, open the three receipts: the former reviewer's vote rejected on-chain, the same wallet's B vote accepted, the alternate's A vote accepted.
@@ -118,14 +149,19 @@ Add the YouTube link for the demo video when it exists.
 ## Expected outcome ({len(outcome)} of 500 characters)
 {outcome}
 
-## Evidence entries (select "GenLayer Explorer Contract" for the first)
+## Evidence entries
+
+Add each deployment in the Contract links section and as its own **GenLayer Explorer Contract** evidence entry. The Portal detects this type from each direct address URL.
 | Type | Label | URL |
 |---|---|---|
 | GenLayer Explorer Contract | Recusal — StudioNet | {E}/address/{C} |
-| Website | Recusal live app | https://recusal.vercel.app |
+{wallet_portal_row}| Website | Recusal live app | https://recusal.vercel.app |
 | GitHub repository | Recusal source | https://github.com/JWattjr/recusal |
 | Transaction | Former reviewer's vote on A, rejected on-chain | {tx('vote-rejected-former-reviewer-A')} |
 | Transaction | Conflict ruling, case 1 | {tx('adjudicate-supervision')} |
+| Transaction | Same reviewer’s B vote accepted | {tx('vote-B-reviewer')} |
+| Transaction | Alternate’s A vote accepted | {tx('vote-A-alternate')} |
+| Transaction | Timeout vacancy | {tx('close-expired')} |
 
 Proof manifest: docs/PROOF_MANIFEST.md. Description length: {len(desc)} of 1000 characters.
 '''

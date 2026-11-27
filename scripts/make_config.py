@@ -58,5 +58,10 @@ config = {
     'walletNames': {live['wallets'][role]: name for role, name in NAMES.items()},
     'recordedReceipts': receipts,
 }
+if live.get('finalRound', {}).get('phase') == 'FINALIZED':
+    config['recordedRound'] = {'round': live['finalRound'], 'cases': list(live['rulings'].values())}
+wallet_path = ROOT / 'deploy/wallet-path.json'
+if wallet_path.is_file():
+    config['walletPathProof'] = json.loads(wallet_path.read_text(encoding='utf-8'))
 (ROOT / 'frontend/config.json').write_text(json.dumps(config, indent=2) + '\n', encoding='utf-8')
 print('config written with', len(receipts), 'receipts for', address)

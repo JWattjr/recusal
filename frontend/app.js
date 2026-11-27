@@ -1,12 +1,6 @@
 const RPC = 'https://studio.genlayer.com/api';
 const CHAIN_ID = '0xf22f';
 const EXPLORER_BASE = 'https://explorer-studio.genlayer.com';
-const SELECTOR = {
-  get_round: '0xb9802e3e', get_case: '0x515ce7f5', get_case_ids: '0x858d9ffc',
-  configure_wallets: '0xc5d918e3', open_assignments: '0x7f2c5e32',
-  open_case: '0x700dd279', clarify: '0x34d5ba84', adjudicate: '0x2b1436c6',
-  close_expired: '0x7a40181f', open_ballot: '0x1eb2181e', vote: '0x0891d358', finalize: '0x70b581ad',
-};
 const POLICY = 'A reviewer may not assess an applicant whose project work they directly supervised during the previous 24 months. Speaking at the same public event, without evidence of supervision, does not disqualify a reviewer.';
 const DEMO = {
   panel: {
@@ -42,71 +36,32 @@ const $ = (id) => document.getElementById(id);
 let provider = null;
 let account = '';
 let contractAddress = '';
+let publishedAddress = '';
 let explorerUrl = '';
 let explorerTxBase = '';
 let contractState = null;
 let contractCases = [];
 let recordedReceipts = [];
+let recordedRound = null;
+let walletPathProof = null;
 let selectedScenario = 'supervision';
 let featuredCase = null;
-let liveReadsAvailable = false;
 let walletNames = {};
+const pendingTrackers = new Map();
+const terminalStatuses = new Set(['FINALIZED', 'CANCELED']);
+let feedbackHash = '';
+let submitting = false;
 
 function esc(value = '') {
   return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 }
-function word(value) { return BigInt(value).toString(16).padStart(64, '0'); }
-function encodeString(value) {
-  const bytes = new TextEncoder().encode(String(value));
-  const hex = [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
-  const padded = hex.padEnd(Math.ceil(hex.length / 64) * 64, '0');
-  return word(bytes.length) + padded;
-}
-function encodeCall(method, args = []) {
-  const selector = SELECTOR[method];
-  if (!selector) throw new Error(`Unknown contract method: ${method}`);
-  const types = {
-    configure_wallets: ['string','string','string','string','string','string','string'],
-    open_assignments: [], open_case: ['string','uint','string','string'],
-    clarify: ['string','string','string'], adjudicate: ['string'], close_expired: ['string'],
-    open_ballot: [], vote: ['string','uint','uint'], finalize: ['string'],
-  }[method] || [];
-  let head = '';
-  let tail = '';
-  for (let i = 0; i < types.length; i++) {
-    if (types[i] === 'string') {
-      head += word(types.length * 32 + tail.length / 2);
-      tail += encodeString(args[i]);
-    } else {
-      head += word(args[i]);
-    }
-  }
-  return selector + head + tail;
-}
-function decodeString(hex) {
-  if (!hex || hex === '0x') return '';
-  const data = hex.replace(/^0x/, '');
-  const offset = Number(BigInt(`0x${data.slice(0, 64)}`)) * 2;
-  const length = Number(BigInt(`0x${data.slice(offset, offset + 64)}`));
-  const bytesHex = data.slice(offset + 64, offset + 64 + length * 2);
-  const bytes = new Uint8Array((bytesHex.match(/.{2}/g) || []).map((part) => parseInt(part, 16)));
-  return new TextDecoder().decode(bytes);
-}
-async function rpc(method, params) {
-  if (provider) return provider.request({ method, params });
-  const response = await fetch(RPC, { method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ jsonrpc: '2.0', id: Date.now(), method, params }) });
-  const result = await response.json();
-  if (result.error) throw new Error(result.error.message || 'GenLayer RPC request failed');
-  return result.result;
-}
-function glClient(withAccount) {
+function glClient(withAccount, wallet = provider) {
   const options = { chain: window.GenLayer.studionet };
-  if (withAccount) Object.assign(options, { account, provider: window.ethereum });
+  if (withAccount) Object.assign(options, { account, provider: wallet });
   return window.GenLayer.createClient(options);
 }
-async function readContract(method, args = []) {
-  const value = await glClient(false).readContract({ address: contractAddress, functionName: method, args });
+async function readContract(method, args = [], address = contractAddress) {
+  const value = await glClient(false).readContract({ address, functionName: method, args });
   return typeof value === 'string' ? value : JSON.stringify(value);
 }
 async function connectWallet() {
@@ -154,6 +109,20 @@ function createSeatRows(wallets, options = {}) {
     return `<li class="${classes}"><span class="seat-number">0${index + 1}</span><span class="seat-name">${esc(fictionalName(wallet))}</span><span class="seat-role">${role}</span></li>`;
   }).join('');
 }
+function renderFeaturedProof() {
+  const proof = [
+    ['Former reviewer vote on A', 'Former reviewer on Application A', 'The contract rejected the vote because that wallet no longer held A’s frozen seat.', '×'],
+    ['Shared reviewer vote on B', 'Same reviewer on Application B', 'The same wallet retained its B seat and cast a vote.', '✓'],
+    ['Alternate vote on A', 'Alternate on Application A', 'The promoted alternate cast a vote in A’s frozen seat.', '✓'],
+  ];
+  $('proofSteps').innerHTML = proof.map(([action, title, detail, mark], index) => {
+    const receipt = recordedReceipts.find((entry) => entry.action === action);
+    const evidence = receipt
+      ? `<span class="proof-observation chain-observation">${esc(receipt.status)}${receipt.executionOutcome ? ` · ${esc(receipt.executionOutcome)}` : ''}</span> <a class="proof-receipt-link" href="${esc(explorerTxBase + receipt.hash)}" target="_blank" rel="noreferrer">Explorer transaction ↗</a>`
+      : '<span class="proof-observation example-observation">Awaiting recorded StudioNet receipt</span>';
+    return `<li><span class="proof-number">0${index + 1}</span><div><strong>${title}</strong>${receipt ? `<p>${detail}</p>` : ''}${evidence}</div><span class="proof-check">${receipt ? mark : '·'}</span></li>`;
+  }).join('');
+}
 function renderSimulation() {
   const scenario = DEMO[selectedScenario];
   const conflict = scenario.outcome === 'CONFLICT';
@@ -182,11 +151,7 @@ function renderSimulation() {
   $('networkState').innerHTML = '<span class="status-dot"></span>Read-only demo';
   $('walletPrompt').textContent = 'Read-only inspection is open. Connect a wallet to see its next participant action.';
   $('walletPrompt').classList.remove('connected');
-  $('proofLiveState').textContent = 'No live transactions recorded';
-  $('proofSteps').innerHTML = `
-    <li><span class="proof-number">01</span><div><strong>Former reviewer · Application A</strong><p>${conflict ? 'Rejected: wallet is not eligible for this frozen seat.' : insuff ? 'Seat on hold: voting is unavailable while clarification is pending.' : 'Retained: the public-panel disclosure does not disqualify.'}</p><span class="proof-observation example-observation">Illustrative policy example · no live vote receipt</span></div><span class="proof-check">${conflict ? '×' : insuff ? '△' : '✓'}</span></li>
-    <li><span class="proof-number">02</span><div><strong>Same reviewer · Application B</strong><p>Eligible: B’s assignment remains unchanged.</p><span class="proof-observation example-observation">Illustrative roster example · no live vote receipt</span></div><span class="proof-check">✓</span></li>
-    <li><span class="proof-number">03</span><div><strong>Alternate reviewer · Application A</strong><p>${conflict ? 'Eligible: Jules Park holds the promoted seat.' : insuff ? 'Available after a conflict ruling or the published vacancy rule.' : 'No replacement is needed for this disclosure.'}</p><span class="proof-observation example-observation">Illustrative roster example · no live vote receipt</span></div><span class="proof-check">${conflict ? '✓' : '·'}</span></li>`;
+  renderFeaturedProof();
   if (contractState) {
     $('contractReadState').textContent = `${contractState.phase} · ${contractAddress.slice(0, 8)}…${contractAddress.slice(-6)}`;
     $('contractReadSummary').textContent = `Round ${contractState.id} · ${contractState.policyVersion} · ${contractState.phase}. Current vote results: A ${contractState.applications.A.result}; B ${contractState.applications.B.result}. This is a current contract read, separate from the illustrative record above.`;
@@ -198,11 +163,13 @@ function renderSimulation() {
   }
   renderReceipts();
 }
-function renderLive() {
-  const state = contractState;
+function renderLive(snapshot = null) {
+  const state = snapshot?.round || contractState;
+  const cases = snapshot?.cases || contractCases;
+  const sourceLabel = snapshot ? 'Recorded finalized round' : 'Current contract read';
   if (!state) return;
   const id = state.featuredCase;
-  featuredCase = contractCases.find((item) => item.id === id) || contractCases[0] || null;
+  featuredCase = cases.find((item) => item.id === id) || cases[0] || null;
   const appId = featuredCase?.appId || 'A';
   const app = state.applications[appId];
   if (!app) return;
@@ -221,47 +188,42 @@ function renderLive() {
   if (featuredCase?.replacedWallet) beforeWallets[seat] = featuredCase.replacedWallet;
   $('beforeRoster').innerHTML = createSeatRows(beforeWallets, { removedIndex: conflict ? seat : -1 });
   $('afterRoster').innerHTML = createSeatRows(app.seats, { promotedIndex: conflict ? seat : -1, heldIndex: app.holds[seat] ? seat : -1, vacantIndex: app.vacancies[seat] ? seat : -1 });
-  $('afterCount').textContent = `${app.ballot?.filter(Boolean).length ?? app.seats.filter(Boolean).length} eligible`;
+  const eligibleSeats = app.ballot?.length
+    ? app.ballot.filter(Boolean)
+    : app.seats.filter((wallet, index) => wallet && !app.holds[index] && !app.vacancies[index]);
+  $('afterCount').textContent = `${eligibleSeats.length} eligible`;
   $('seatChange').textContent = conflict ? `Seat ${seat + 1} · ${fictionalName(featuredCase.replacedWallet)} → ${fictionalName(featuredCase.replacementWallet)}` : insuff ? `Seat ${seat + 1} · held pending clarification` : `Seat ${seat + 1} · ${fictionalName(app.seats[seat])} retained`;
-  $('seatChangeNote').textContent = `Conflict applies to Application ${appId} only.`;
+  $('seatChangeNote').textContent = conflict ? `Conflict applies to Application ${appId} only.`
+    : insuff ? 'An unresolved seat can become vacant after its resolution deadline.'
+    : 'The ruling leaves this assignment eligible.';
   $('appName').textContent = app.name;
-  $('rulingSource').textContent = ruling ? `Current contract read · ruling v${ruling.evidenceVersion}` : 'Current contract read · no ruling receipt';
+  $('rulingSource').textContent = ruling ? `${sourceLabel} · ruling v${ruling.evidenceVersion}` : sourceLabel;
   $('caseDeadlines').innerHTML = featuredCase
     ? `Case ${esc(featuredCase.id)} · Challenge cutoff ${esc(formatDeadline(featuredCase.challengeCutoff))} <span>·</span> Resolution deadline ${esc(formatDeadline(featuredCase.resolutionDeadline))}`
     : 'Each case starts a 30-minute challenge window when opened; resolution is due 30 minutes later.';
   $('caseStatus').textContent = featuredCase?.status || state.phase;
-  $('modeBadge').textContent = 'LIVE CONTRACT READ';
-  $('networkState').innerHTML = `<span class="status-dot" style="background:var(--green)"></span>${account ? 'StudioNet connected' : 'StudioNet read'}`;
-  $('contractReadState').textContent = `${state.phase} · ${contractAddress.slice(0, 8)}…${contractAddress.slice(-6)}`;
-  const latestCase = [...contractCases].sort((a, b) => Number(b.openedAt) - Number(a.openedAt))[0];
+  $('modeBadge').textContent = snapshot ? 'RECORDED FINALIZED ROUND' : 'LIVE CONTRACT READ';
+  const networkLabel = snapshot ? 'Recorded StudioNet round' : account ? 'StudioNet connected' : 'StudioNet read';
+  $('networkState').innerHTML = `<span class="status-dot" style="background:var(--green)"></span>${networkLabel}`;
+  const latestCase = [...cases].sort((a, b) => Number(b.openedAt) - Number(a.openedAt))[0];
   const deadlineSummary = latestCase
     ? `Latest case ${latestCase.id}: challenge cutoff ${formatDeadline(latestCase.challengeCutoff)}, resolution deadline ${formatDeadline(latestCase.resolutionDeadline)}.`
     : 'No case deadlines are active; a case starts its own 30-minute windows when opened.';
-  $('contractReadSummary').textContent = `Round ${state.id} · ${state.policyVersion} · ${state.phase}. Current vote results: A ${state.applications.A.result}; B ${state.applications.B.result}. ${deadlineSummary} This current read is not a transaction receipt.`;
+  $('contractReadState').textContent = snapshot
+    ? 'Loading current StudioNet state'
+    : `${state.phase} · ${contractAddress.slice(0, 8)}…${contractAddress.slice(-6)}`;
+  $('contractReadSummary').textContent = `Round ${state.id} · ${state.policyVersion} · ${state.phase}. ${snapshot ? 'Recorded' : 'Current'} vote results: A ${state.applications.A.result}; B ${state.applications.B.result}. ${deadlineSummary}`;
   const rosterA = state.applications.A;
   const rosterB = state.applications.B;
-  const conflictCase = contractCases.find((item) => item.appId === 'A' && item.decision === 'CONFLICT');
+  const conflictCase = cases.find((item) => item.appId === 'A' && item.decision === 'CONFLICT');
   $('scope-table').innerHTML = `<div class="scope-row scope-header" role="row"><span role="columnheader">Application</span><span role="columnheader">Assignment</span><span role="columnheader">Ballot result</span><span role="columnheader">Scope</span></div>
     <div class="scope-row" role="row"><span class="application-cell"><b>A</b><span>${esc(rosterA.name)}</span></span><span class="assignment-cell"><span class="replacement-name">${esc(fictionalName(rosterA.seats[0]))}</span><small>seat 1</small></span><span class="result-cell"><span class="status-label ${conflictCase ? 'conflict-label' : 'eligible-label'}">${conflictCase ? 'RECUSAL · CONFLICT' : esc(rosterA.result)}</span></span><span class="scope-cell">This application</span></div>
     <div class="scope-row" role="row"><span class="application-cell"><b>B</b><span>${esc(rosterB.name)}</span></span><span class="assignment-cell"><span>${esc(fictionalName(rosterB.seats[0]))}</span><small>seat 1</small></span><span class="result-cell"><span class="status-label eligible-label">${esc(rosterB.result)}</span></span><span class="scope-cell">Unaffected</span></div>`;
-  const sameReviewerSurvives = conflictCase && rosterB.seats[0]?.toLowerCase() === conflictCase.replacedWallet?.toLowerCase();
-  const alternatePromoted = conflictCase && rosterA.seats[seat]?.toLowerCase() === conflictCase.replacementWallet?.toLowerCase();
-  const proofReceipt = (action, fallback) => {
-    const receipt = recordedReceipts.find((item) => item.action === action);
-    if (!receipt) return `<span class="proof-observation example-observation">${fallback}</span>`;
-    const outcome = receipt.executionOutcome ? ` · ${esc(receipt.executionOutcome)}` : '';
-    return `<span class="proof-observation chain-observation">${esc(receipt.status)}${outcome}</span> <a class="proof-receipt-link" href="${esc(explorerTxBase + receipt.hash)}" target="_blank" rel="noreferrer">Explorer transaction ↗</a>`;
-  };
-  const rejected = recordedReceipts.find((item) => item.action === 'Former reviewer vote on A');
-  const acceptedB = recordedReceipts.find((item) => item.action === 'Shared reviewer vote on B');
-  const acceptedA = recordedReceipts.find((item) => item.action === 'Alternate vote on A');
-  $('proofSteps').innerHTML = `<li><span class="proof-number">01</span><div><strong>Former reviewer · Application A</strong><p>${rejected ? `The on-chain ballot rejected the former reviewer: ${esc(rejected.executionOutcome || 'see finalized transaction receipt')}.` : conflictCase ? 'The current read confirms removal from A; the live ballot transaction is not recorded yet.' : 'No conflict ruling recorded for A yet.'}</p>${proofReceipt('Former reviewer vote on A', 'Awaiting the on-chain rejected-vote receipt.')}</div><span class="proof-check">${rejected ? '×' : conflictCase ? '✓' : '·'}</span></li>
-    <li><span class="proof-number">02</span><div><strong>Same reviewer · Application B</strong><p>${esc(fictionalName(rosterB.seats[0]))} remains assigned to B${acceptedB ? ' and the on-chain vote was accepted.' : '; the live vote is not recorded yet.'}</p>${proofReceipt('Shared reviewer vote on B', sameReviewerSurvives ? 'Current contract read confirms the B assignment; awaiting its on-chain vote receipt.' : 'Current contract read')}</div><span class="proof-check">${acceptedB ? '✓' : sameReviewerSurvives ? '✓' : '·'}</span></li>
-    <li><span class="proof-number">03</span><div><strong>Alternate reviewer · Application A</strong><p>${esc(fictionalName(rosterA.seats[seat]))} holds A’s promoted seat${acceptedA ? ' and the on-chain vote was accepted.' : '; the live vote is not recorded yet.'}</p>${proofReceipt('Alternate vote on A', alternatePromoted ? 'Current contract read confirms promotion; awaiting its on-chain vote receipt.' : 'Current contract read')}</div><span class="proof-check">${acceptedA ? '✓' : alternatePromoted ? '✓' : '·'}</span></li>`;
+  renderFeaturedProof();
   $('scopeCaption')?.remove();
-  $('modeBadge').textContent = 'LIVE CONTRACT READ';
-  $('explorerLink').classList.toggle('hidden', !explorerUrl);
-  if (explorerUrl) { $('explorerLink').href = explorerUrl; $('explorerLink').textContent = 'GenLayer Explorer Contract · verified address ↗'; }
+  if (contractAddress.toLowerCase() !== publishedAddress.toLowerCase()) {
+    $('contractReadSummary').textContent += ' The featured receipts belong to the published demo round.';
+  }
   if (featuredCase?.id) $('actionCaseId').value = featuredCase.id;
   renderReceipts();
   updateWalletPrompt();
@@ -279,6 +241,22 @@ function updateWalletPrompt() {
     return;
   }
   const address = account.toLowerCase();
+  if (contractState.phase === 'CHALLENGES') {
+    const timestamp = Math.floor(Date.now() / 1000);
+    const unresolved = contractCases.filter((item) => ['OPEN', 'NEEDS_CLARIFICATION'].includes(item.status));
+    const expired = unresolved.find((item) => timestamp > item.resolutionDeadline);
+    if (expired) {
+      $('actionCaseId').value = expired.id;
+      prompt.textContent = `Next for any wallet: close expired case ${expired.id} to mark that seat vacant.`;
+      return;
+    }
+    const latestCutoff = Math.max(0, ...contractCases.map((item) => item.challengeCutoff));
+    const latestDeadline = Math.max(0, ...contractCases.map((item) => item.resolutionDeadline));
+    if (!unresolved.length && timestamp > latestCutoff && (address === contractState.steward || timestamp > latestDeadline)) {
+      prompt.textContent = 'Next for this wallet: open the ballot to freeze the eligible seats.';
+      return;
+    }
+  }
   if (address === contractState.steward) {
     if (contractState.phase === 'SETUP') prompt.textContent = 'Next for the steward: freeze the seven-wallet map, then open assignments.';
     else if (contractState.phase === 'CHALLENGES') prompt.textContent = 'Next for the steward: review open cases, then open the ballot after the frozen cutoff and case recovery rules allow it.';
@@ -323,19 +301,23 @@ function updateWalletPrompt() {
 }
 async function refreshContract() {
   if (!contractAddress) return;
+  const address = contractAddress;
   try {
-    const raw = await readContract('get_round');
-    contractState = JSON.parse(raw);
-    const ids = JSON.parse(await readContract('get_case_ids'));
-    contractCases = [];
-    for (const id of ids) contractCases.push(JSON.parse(await readContract('get_case', [id])));
-    liveReadsAvailable = true;
+    const state = JSON.parse(await readContract('get_round', [], address));
+    const ids = JSON.parse(await readContract('get_case_ids', [], address));
+    const cases = await Promise.all(ids.map(async (id) => JSON.parse(await readContract('get_case', [id], address))));
+    if (address !== contractAddress) return;
+    contractState = state;
+    contractCases = cases;
     renderLive();
   } catch (error) {
-    liveReadsAvailable = false;
-    $('contractReadState').textContent = 'Read failed · local dossier remains available';
-    $('contractReadSummary').textContent = `${error.message}. The illustrative record is not a contract read.`;
-    $('modeBadge').textContent = 'POLICY EXAMPLE';
+    if (address !== contractAddress) return;
+    const fallback = address.toLowerCase() === publishedAddress.toLowerCase() ? recordedRound : null;
+    if (fallback) renderLive(fallback);
+    $('contractReadState').textContent = 'Current StudioNet read unavailable';
+    $('contractReadSummary').textContent = fallback
+      ? 'The dossier shows the recorded finalized round. Its Explorer receipts remain available.'
+      : `StudioNet could not load this address: ${error.message}`;
   }
 }
 function setFeedback(message, state = '') {
@@ -343,32 +325,130 @@ function setFeedback(message, state = '') {
   element.textContent = message;
   element.dataset.state = state;
 }
+function walletReceipts() {
+  try {
+    const items = JSON.parse(localStorage.getItem('recusal.receipts') || '[]');
+    return Array.isArray(items) ? items.filter((item) => /^0x[0-9a-f]{64}$/i.test(item?.hash)) : [];
+  } catch {
+    return [];
+  }
+}
+function saveWalletReceipt(item) {
+  const items = walletReceipts().filter(({ hash }) => hash !== item.hash);
+  localStorage.setItem('recusal.receipts', JSON.stringify([...items, item].slice(-30)));
+  renderReceipts();
+}
+function executionOutcome(receipt) {
+  const consensus = receipt.result_name || receipt.resultName;
+  if (consensus === 'DISAGREE' || consensus === 'MAJORITY_DISAGREE') return 'Consensus did not accept execution';
+  if (receipt.txExecutionResultName === 'FINISHED_WITH_RETURN') return 'Execution succeeded';
+  if (receipt.txExecutionResultName === 'FINISHED_WITH_ERROR') {
+    const leader = receipt.consensus_data?.leader_receipt;
+    const reason = (Array.isArray(leader) ? leader[0] : leader)?.result?.payload;
+    return typeof reason === 'string' ? `Execution rejected: ${reason}` : 'Execution rejected · see Explorer for the reason';
+  }
+  return receipt.txExecutionResultName || 'Execution outcome unavailable';
+}
+async function pollReceipt(item) {
+  const client = glClient(false);
+  // Keep the recorded hash on timeout so reopening the page can resume its status.
+  for (let attempt = 0; attempt < 100; attempt++) {
+    let receipt;
+    try {
+      receipt = await client.getTransaction({ hash: item.hash });
+    } catch {
+      // The indexer may still be catching up or RPC may temporarily be unavailable.
+    }
+    const status = receipt?.statusName || (typeof receipt?.status === 'string' ? receipt.status : '');
+    if (status && (item.status !== status || item.trackingPaused)) {
+      item = { ...item, status, trackingPaused: false,
+        executionOutcome: status === 'FINALIZED' ? executionOutcome(receipt) : '' };
+      saveWalletReceipt(item);
+      if (feedbackHash === item.hash) {
+        setFeedback(`${item.action} · ${status}${item.executionOutcome ? ` · ${item.executionOutcome}` : ''}.`,
+          terminalStatuses.has(status) ? (item.executionOutcome === 'Execution succeeded' ? 'success' : 'error') : 'pending');
+      }
+      if (terminalStatuses.has(status)) {
+        if (status === 'FINALIZED' && item.contract?.toLowerCase() === contractAddress.toLowerCase()) {
+          void refreshContract();
+        }
+        return item;
+      }
+    }
+    await new Promise((resolve) => window.setTimeout(resolve, 6000));
+  }
+  item = { ...item, trackingPaused: true };
+  saveWalletReceipt(item);
+  if (feedbackHash === item.hash) setFeedback('StudioNet hasn’t reported a final result yet. Check the recorded transaction again from the evidence ledger.', 'pending');
+  return item;
+}
+function trackReceipt(item) {
+  if (pendingTrackers.has(item.hash)) return pendingTrackers.get(item.hash);
+  const tracking = pollReceipt(item).finally(() => pendingTrackers.delete(item.hash));
+  pendingTrackers.set(item.hash, tracking);
+  return tracking;
+}
 function renderReceipts() {
-  const receipts = JSON.parse(localStorage.getItem('recusal.receipts') || '[]');
+  const receipts = walletReceipts();
   const list = $('receiptList');
-  const recorded = recordedReceipts.map((item) => `<li class="receipt-item"><span>${esc(item.action)}<br /><span class="receipt-status">StudioNet consensus receipt · ${esc(item.status)}${item.executionOutcome ? ` · ${esc(item.executionOutcome)}` : ''}${item.fee ? ` · fee ${esc(item.fee)}` : ''}</span></span>${explorerTxBase ? `<a href="${esc(explorerTxBase + item.hash)}" target="_blank" rel="noreferrer">Explorer receipt ↗</a>` : `<code>${esc(item.hash.slice(0, 10))}…</code>`}</li>`);
-  const walletSubmissions = receipts.slice().reverse().map((item) => `<li class="receipt-item"><span>${esc(item.action)}<br /><span class="receipt-status">Browser wallet submission · ${esc(item.status || 'execution not attested')}${item.executionOutcome ? ` · ${esc(item.executionOutcome)}` : ''}</span></span>${explorerTxBase ? `<a href="${esc(explorerTxBase + item.hash)}" target="_blank" rel="noreferrer">Transaction ↗</a>` : `<code>${esc(item.hash.slice(0, 10))}…</code>`}</li>`);
+  const receiptRow = (item) => `<li class="receipt-item"><span>${esc(item.action)}<br /><span class="receipt-status">StudioNet consensus receipt · ${esc(item.status)}${item.executionOutcome ? ` · ${esc(item.executionOutcome)}` : ''}${item.fee ? ` · fee ${esc(item.fee)}` : ''}</span></span>${explorerTxBase ? `<a href="${esc(explorerTxBase + item.hash)}" target="_blank" rel="noreferrer">Explorer receipt ↗</a>` : `<code>${esc(item.hash.slice(0, 10))}…</code>`}</li>`;
+  const recorded = recordedReceipts.map(receiptRow);
+  if (walletPathProof) {
+    $('walletPathEvidence').classList.remove('hidden');
+    $('walletPathExplorerLink').href = walletPathProof.explorerUrl;
+    $('walletPathReceipts').innerHTML = walletPathProof.receipts.map(receiptRow).join('');
+  }
+  const walletSubmissions = receipts.slice().reverse().map((item) => `<li class="receipt-item"><span>${esc(item.action)}<br /><span class="receipt-status">Browser wallet submission · ${esc(item.status || 'SUBMITTED')}${item.executionOutcome ? ` · ${esc(item.executionOutcome)}` : ''}${item.trackingPaused ? ' · awaiting finality' : ''}</span></span><span><a href="${esc((explorerTxBase || EXPLORER_BASE + '/tx/') + item.hash)}" target="_blank" rel="noreferrer">Transaction ↗</a>${!terminalStatuses.has(item.status) ? ` <button type="button" data-track-receipt="${item.hash}">Check status</button>` : ''}</span></li>`);
   list.innerHTML = [...recorded, ...walletSubmissions].join('') || '<li class="empty-record">No recorded receipts or wallet submissions yet.</li>';
   $('proofLiveState').textContent = `${recordedReceipts.length} finalized StudioNet receipt${recordedReceipts.length === 1 ? '' : 's'} · ${receipts.length} browser wallet submission${receipts.length === 1 ? '' : 's'}`;
 }
 async function sendWrite(method, args = [], label = method) {
+  if (submitting) return;
   if (!contractAddress) throw new Error('Load a deployed contract address before sending a wallet action.');
-  if (!account) await connectWallet();
-  const chain = await provider.request({ method: 'eth_chainId' });
-  if (chain.toLowerCase() !== CHAIN_ID) await connectWallet();
-  setFeedback(`Waiting for wallet approval: ${label}…`, 'pending');
-  // The chain enforces a fee policy: estimate the fee distribution and deposit ten times the quote (unused fee is refunded).
-  const client = glClient(true);
-  const estimate = await client.estimateTransactionFees({});
-  const fees = { distribution: estimate.distribution, feeValue: estimate.feeValue * 10n };
-  const hash = await client.writeContract({ address: contractAddress, functionName: method, args, value: 0n, fees });
-  const receipts = JSON.parse(localStorage.getItem('recusal.receipts') || '[]');
-  receipts.push({ action: label, hash, account, at: new Date().toISOString(), status: 'submitted' });
-  localStorage.setItem('recusal.receipts', JSON.stringify(receipts.slice(-30)));
-  renderReceipts();
-  setFeedback(`Transaction hash returned for ${label}. This records wallet submission; contract execution and consensus are not confirmed yet.`, 'submitted');
-  window.setTimeout(() => refreshContract(), 3500);
-  return hash;
+  submitting = true;
+  feedbackHash = '';
+  const address = contractAddress;
+  try {
+    if (!account) await connectWallet();
+    const chain = await provider.request({ method: 'eth_chainId' });
+    if (chain.toLowerCase() !== CHAIN_ID) await connectWallet();
+    if (!account || (await provider.request({ method: 'eth_chainId' })).toLowerCase() !== CHAIN_ID) throw new Error('Connect a wallet on StudioNet.');
+    const from = account;
+    setFeedback(`Preparing ${label} for wallet approval…`, 'pending');
+    let submitted = '';
+    function recordSubmission(hash) {
+      if (submitted || !/^0x[0-9a-f]{64}$/i.test(hash)) return;
+      submitted = hash;
+      const item = { action: label, hash, account: from, contract: address, at: new Date().toISOString(), status: 'SUBMITTED' };
+      feedbackHash = hash;
+      saveWalletReceipt(item);
+      setFeedback(`${label} submitted. Waiting for StudioNet consensus.`, 'submitted');
+      void trackReceipt(item);
+    }
+    const wallet = provider;
+    const client = glClient(true, {
+      async request(request) {
+        const result = await wallet.request(request);
+        // Preserve the wallet's hash even if the SDK times out waiting for the envelope.
+        if (request.method === 'eth_sendTransaction') recordSubmission(result);
+        return result;
+      },
+    });
+    const estimate = await client.estimateTransactionFees({});
+    const fees = { distribution: estimate.distribution, feeValue: estimate.feeValue * 10n };
+    try {
+      const hash = await client.writeContract({ address, functionName: method, args, value: 0n, fees });
+      recordSubmission(hash);
+      return hash;
+    } catch (error) {
+      if (!submitted) throw error;
+      // StudioNet uses the same hash for the envelope and the consensus record.
+      // Keep the link and let the receipt tracker determine the execution result.
+      return submitted;
+    }
+  } finally {
+    submitting = false;
+  }
 }
 function walletValues() {
   return [
@@ -403,6 +483,14 @@ function setScenario(name) {
   renderSimulation();
 }
 async function init() {
+  $('receiptList').addEventListener('click', (event) => {
+    const hash = event.target.closest('[data-track-receipt]')?.dataset.trackReceipt;
+    const item = hash && walletReceipts().find((entry) => entry.hash === hash);
+    if (!item || terminalStatuses.has(item.status)) return;
+    feedbackHash = item.hash;
+    setFeedback(`Checking ${item.action} · ${item.status}…`, 'pending');
+    void trackReceipt(item);
+  });
   document.querySelectorAll('.scenario-row').forEach((row) => row.addEventListener('click', () => setScenario(row.dataset.scenario)));
   document.querySelectorAll('[data-action]').forEach((button) => button.addEventListener('click', async () => {
     try { await actionFor(button.dataset.action); }
@@ -424,6 +512,9 @@ async function init() {
     const value = $('contractInput').value.trim();
     if (!/^0x[0-9a-fA-F]{40}$/.test(value)) { setFeedback('Enter a 20-byte GenLayer contract address.', 'error'); return; }
     contractAddress = value;
+    contractState = null;
+    contractCases = [];
+    featuredCase = null;
     localStorage.setItem('recusal.contractAddress', contractAddress);
     await refreshContract();
   });
@@ -432,10 +523,13 @@ async function init() {
   try {
     const response = await fetch('./config.json', { cache: 'no-store' });
     const config = await response.json();
-    contractAddress = localStorage.getItem('recusal.contractAddress') || config.contractAddress || '';
+    publishedAddress = config.contractAddress || '';
+    contractAddress = localStorage.getItem('recusal.contractAddress') || publishedAddress;
     explorerUrl = config.explorerUrl || '';
     explorerTxBase = config.explorerTxBase || `${config.explorerBase || EXPLORER_BASE}/tx/`;
     recordedReceipts = config.recordedReceipts || [];
+    recordedRound = config.recordedRound || null;
+    walletPathProof = config.walletPathProof || null;
     walletNames = Object.fromEntries(Object.entries(config.walletNames || {}).map(([a, n]) => [a.toLowerCase(), n]));
     if (explorerUrl) {
       $('explorerLink').href = explorerUrl;
@@ -443,9 +537,14 @@ async function init() {
       $('explorerLink').classList.remove('hidden');
     }
     $('contractInput').value = contractAddress;
+    if (recordedRound && contractAddress.toLowerCase() === publishedAddress.toLowerCase()) renderLive(recordedRound);
+    renderFeaturedProof();
     renderReceipts();
     if (contractAddress) await refreshContract();
   } catch { /* Local file previews intentionally use the built-in policy examples. */ }
+  for (const item of walletReceipts().filter(({ status }) => !terminalStatuses.has(status)).slice(-3)) {
+    void trackReceipt(item);
+  }
   if (window.ethereum) {
     window.ethereum.on?.('accountsChanged', (accounts) => { account = accounts[0] || ''; $('connectButton').textContent = account ? `${account.slice(0, 6)}…${account.slice(-4)}` : 'Connect wallet'; });
     window.ethereum.on?.('chainChanged', () => { if (contractAddress) refreshContract(); });

@@ -132,6 +132,12 @@
           <article class="record-column"><div class="record-column-heading"><span class="record-icon receipt-icon">↗</span><div><h3>Recorded receipts</h3><p>Finalized StudioNet receipts; browser wallet submissions are labeled separately</p></div></div><ul id="receiptList" class="record-list"><li class="empty-record">Loading recorded receipts…</li></ul></article>
           <article class="record-column"><div class="record-column-heading"><span class="record-icon read-icon">◉</span><div><h3>Current contract reads</h3><p id="contractReadState">No contract address configured</p></div></div><div id="contractReadSummary" class="read-summary">The public dossier is showing an illustrative policy example.</div><a id="explorerLink" class="explorer-link hidden" target="_blank" rel="noreferrer">Open GenLayer Explorer contract <span aria-hidden="true">↗</span></a></article>
         </div>
+        <details id="walletPathEvidence" class="wallet-path-evidence hidden">
+          <summary>Wallet path verification receipts</summary>
+          <p>Test wallets submitted these actions through Recusal’s write controls on a separate StudioNet round.</p>
+          <a class="explorer-link" id="walletPathExplorerLink" target="_blank" rel="noreferrer">GenLayer Explorer Contract · verification round ↗</a>
+          <ul id="walletPathReceipts" class="record-list"></ul>
+        </details>
       </section>
 
       <details class="steward-tools" id="steward-tools">
@@ -146,6 +152,7 @@
             <div><h3>Ballot</h3><label>Application<select id="actionApplication"><option value="A">A · Civic cooling map</option><option value="B">B · Library repair grants</option></select></label><label>Seat<select id="actionSeat"><option value="0">Seat 1</option><option value="1">Seat 2</option><option value="2">Seat 3</option></select></label><label>Disclosure passage<textarea id="actionPassage" rows="3">Six months before the round I set the applicant’s project goals, approved her work, and signed her performance assessment.</textarea></label><label>Supported relationship date<input id="actionDate" type="date" /></label><label>Case ID<input id="actionCaseId" placeholder="Case number from contract read" /></label><div class="action-buttons"><button data-action="open_ballot">Open ballot</button><button data-action="vote_yes">Vote yes</button><button data-action="vote_no">Vote no</button><button data-action="finalize">Finalize result</button></div></div>
           </div>
           <p id="actionFeedback" class="action-feedback" role="status" aria-live="polite">No wallet action submitted.</p>
+          <a class="wallet-receipts-link" href="#records">View wallet transaction status in the evidence ledger ↗</a>
         </div>
       </details>
     </main>
