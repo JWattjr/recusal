@@ -50,6 +50,30 @@
 
 Two receipts are expected failures by design (the rejected votes). One (case 4, attempt 1) is a consensus disagreement caused by a malformed model answer; it changed no state and was resubmitted.
 
+## App wallet path
+
+[GenLayer Explorer Contract for the verification round](https://explorer-studio.genlayer.com/address/0xa0077De3727EfF57C1CA39bb7823Fc396f52e829) on StudioNet, chain 61999.
+
+The verification harness executes the app's JavaScript controls and GenLayer SDK with an injected EIP-1193 provider. The provider signs the SDK's StudioNet transaction envelopes with the project's ignored test keys. The verification round uses the same contract source as the completed public demo. The app's receipt tracker observed each submitted action reach finality and distinguished execution success from rejection.
+
+| Action | Receipt | Final result |
+|---|---|---|
+| Deploy wallet path verification contract | [0x021b3831ac7b9b1d4ff49c7c3ab7923c1c9f1340dd51a62944beca97ab47e807](https://explorer-studio.genlayer.com/tx/0x021b3831ac7b9b1d4ff49c7c3ab7923c1c9f1340dd51a62944beca97ab47e807) | FINALIZED / Execution succeeded |
+| Freeze wallet map | [0xcd594f1557b7453b5a0f82474c16cb2db814c92bbfb8360607e5a30cbe7eaa2d](https://explorer-studio.genlayer.com/tx/0xcd594f1557b7453b5a0f82474c16cb2db814c92bbfb8360607e5a30cbe7eaa2d) | FINALIZED / Execution succeeded |
+| Open assignments | [0xcae43c62fbbc7fe9277e680bc4b0a264974d1a34a2bb5319fc3f3fb5ffe0d0f4](https://explorer-studio.genlayer.com/tx/0xcae43c62fbbc7fe9277e680bc4b0a264974d1a34a2bb5319fc3f3fb5ffe0d0f4) | FINALIZED / Execution succeeded |
+| Open A disclosure | [0xa0429275f4bdf27ae86261c56d022c8c1aa5640702cd51f6d40b7535de30ec78](https://explorer-studio.genlayer.com/tx/0xa0429275f4bdf27ae86261c56d022c8c1aa5640702cd51f6d40b7535de30ec78) | FINALIZED / Execution succeeded |
+| Open unresolved B disclosure | [0x8acb1a99564d1c34017145d83b48884d46bbd818094b8ea2058763080c3353cc](https://explorer-studio.genlayer.com/tx/0x8acb1a99564d1c34017145d83b48884d46bbd818094b8ea2058763080c3353cc) | FINALIZED / Execution succeeded |
+| Record A conflict ruling | [0xbc81ab25008e7fcd9639de6bf7cebf3f77802575746cf7c231b8e13713fd8cab](https://explorer-studio.genlayer.com/tx/0xbc81ab25008e7fcd9639de6bf7cebf3f77802575746cf7c231b8e13713fd8cab) | FINALIZED / Execution succeeded |
+| Close expired B seat as a vacancy | [0x7b37b1936759f7a2773af7e279039d0edea07a6d34965e71039a82634a798d6c](https://explorer-studio.genlayer.com/tx/0x7b37b1936759f7a2773af7e279039d0edea07a6d34965e71039a82634a798d6c) | FINALIZED / Execution succeeded |
+| Freeze the ballot | [0x5378739dd1160ef3113d97066eff4ff1ac32e4e11cef69c177870bf1796bd00c](https://explorer-studio.genlayer.com/tx/0x5378739dd1160ef3113d97066eff4ff1ac32e4e11cef69c177870bf1796bd00c) | FINALIZED / Execution succeeded |
+| Reject the former reviewer’s A vote | [0xe32ee6770fc0bb3f4ae479ef2766efce2fb84db40a5e108854cadc2e84af7d00](https://explorer-studio.genlayer.com/tx/0xe32ee6770fc0bb3f4ae479ef2766efce2fb84db40a5e108854cadc2e84af7d00) | FINALIZED / Execution rejected: wallet is not eligible for this frozen seat |
+| Accept the same reviewer’s B vote | [0x9294f04e2b00d6871f1c8b85c6b2b0f04d6e3bb5aaca5e56d9c84ee8108fd5c7](https://explorer-studio.genlayer.com/tx/0x9294f04e2b00d6871f1c8b85c6b2b0f04d6e3bb5aaca5e56d9c84ee8108fd5c7) | FINALIZED / Execution succeeded |
+| Accept the alternate’s A vote | [0x6756667aa6765cf35edbafc0ff4d225bed4fed97662b43e2ea5fd76b3d5f8492](https://explorer-studio.genlayer.com/tx/0x6756667aa6765cf35edbafc0ff4d225bed4fed97662b43e2ea5fd76b3d5f8492) | FINALIZED / Execution succeeded |
+| Finalize A | [0x5e8c058aea2e0485c1fcf3a0b1650a8e30eff764bc3bac85d1e7e41aafe03aab](https://explorer-studio.genlayer.com/tx/0x5e8c058aea2e0485c1fcf3a0b1650a8e30eff764bc3bac85d1e7e41aafe03aab) | FINALIZED / Execution succeeded |
+| Finalize B | [0xbf7c1b85b62d8178b41901a2cd0cc33257f4fdab8b00634ba7475638c049b1c9](https://explorer-studio.genlayer.com/tx/0xbf7c1b85b62d8178b41901a2cd0cc33257f4fdab8b00634ba7475638c049b1c9) | FINALIZED / Execution succeeded |
+
+The same signer submitted both the rejected A vote and accepted B vote. The alternate signed the successful A vote. After the case deadline, a wallet other than the steward closed the vacant B seat and opened the ballot. Final public reads showed A and B at YES and B's expired seat empty in the frozen ballot.
+
 ## Test wallets (public addresses, fictional roles)
 
 - steward: `0xAFfd6CcE80BB44406CcaC874241F913CcD0Ffae3`

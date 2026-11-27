@@ -1,0 +1,99 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "contractAddress": "0xa0077De3727EfF57C1CA39bb7823Fc396f52e829",
+  "explorerUrl": "https://explorer-studio.genlayer.com/address/0xa0077De3727EfF57C1CA39bb7823Fc396f52e829",
+  "receipts": [
+    {
+      "id": "wallet-path-deploy",
+      "action": "Deploy wallet path verification contract",
+      "hash": "0x021b3831ac7b9b1d4ff49c7c3ab7923c1c9f1340dd51a62944beca97ab47e807",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    },
+    {
+      "id": "wallet-map",
+      "action": "Freeze wallet map",
+      "hash": "0xcd594f1557b7453b5a0f82474c16cb2db814c92bbfb8360607e5a30cbe7eaa2d",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    },
+    {
+      "id": "assignments",
+      "action": "Open assignments",
+      "hash": "0xcae43c62fbbc7fe9277e680bc4b0a264974d1a34a2bb5319fc3f3fb5ffe0d0f4",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    },
+    {
+      "id": "conflict-case",
+      "action": "Open A disclosure",
+      "hash": "0xa0429275f4bdf27ae86261c56d022c8c1aa5640702cd51f6d40b7535de30ec78",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    },
+    {
+      "id": "timeout-case",
+      "action": "Open unresolved B disclosure",
+      "hash": "0x8acb1a99564d1c34017145d83b48884d46bbd818094b8ea2058763080c3353cc",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    },
+    {
+      "id": "conflict-ruling",
+      "action": "Record A conflict ruling",
+      "hash": "0xbc81ab25008e7fcd9639de6bf7cebf3f77802575746cf7c231b8e13713fd8cab",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    },
+    {
+      "id": "timeout-vacancy",
+      "action": "Close expired B seat as a vacancy",
+      "hash": "0x7b37b1936759f7a2773af7e279039d0edea07a6d34965e71039a82634a798d6c",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    },
+    {
+      "id": "open-ballot",
+      "action": "Freeze the ballot",
+      "hash": "0x5378739dd1160ef3113d97066eff4ff1ac32e4e11cef69c177870bf1796bd00c",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    },
+    {
+      "id": "rejected-A",
+      "action": "Reject the former reviewer’s A vote",
+      "hash": "0xe32ee6770fc0bb3f4ae479ef2766efce2fb84db40a5e108854cadc2e84af7d00",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution rejected: wallet is not eligible for this frozen seat"
+    },
+    {
+      "id": "accepted-B",
+      "action": "Accept the same reviewer’s B vote",
+      "hash": "0x9294f04e2b00d6871f1c8b85c6b2b0f04d6e3bb5aaca5e56d9c84ee8108fd5c7",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    },
+    {
+      "id": "accepted-A",
+      "action": "Accept the alternate’s A vote",
+      "hash": "0x6756667aa6765cf35edbafc0ff4d225bed4fed97662b43e2ea5fd76b3d5f8492",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    },
+    {
+      "id": "finalize-A",
+      "action": "Finalize A",
+      "hash": "0x5e8c058aea2e0485c1fcf3a0b1650a8e30eff764bc3bac85d1e7e41aafe03aab",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    },
+    {
+      "id": "finalize-B",
+      "action": "Finalize B",
+      "hash": "0xbf7c1b85b62d8178b41901a2cd0cc33257f4fdab8b00634ba7475638c049b1c9",
+      "status": "FINALIZED",
+      "executionOutcome": "Execution succeeded"
+    }
+  ]
+}

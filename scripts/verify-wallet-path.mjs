@@ -71,9 +71,19 @@ const bridge = {
     return hash;
   },
 };
+function appClient(options) {
+  const client = createClient(options);
+  // The SDK checks array prototypes during encoding. In a browser the controls
+  // and SDK share a realm, while this harness runs the controls in a VM context.
+  return {
+    ...client,
+    writeContract: (request) => client.writeContract({ ...request, args: Array.from(request.args) }),
+    readContract: (request) => client.readContract({ ...request, args: Array.from(request.args) }),
+  };
+}
 const context = vm.createContext({
   document: { getElementById: element }, window: {
-    ethereum: bridge, GenLayer: { createClient, studionet }, setTimeout,
+    ethereum: bridge, GenLayer: { createClient: appClient, studionet }, setTimeout,
   },
   localStorage: { getItem: (key) => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) },
   TextEncoder, TextDecoder, console,

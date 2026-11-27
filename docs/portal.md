@@ -39,6 +39,7 @@ Add each deployment in the Contract links section and as its own **GenLayer Expl
 | Type | Label | URL |
 |---|---|---|
 | GenLayer Explorer Contract | Recusal — StudioNet | https://explorer-studio.genlayer.com/address/0x1B18Bf76D50352C174aEeBAf1BeD9815CE3A43a3 |
+| GenLayer Explorer Contract | Recusal wallet path verification · StudioNet | https://explorer-studio.genlayer.com/address/0xa0077De3727EfF57C1CA39bb7823Fc396f52e829 |
 | Website | Recusal live app | https://recusal.vercel.app |
 | GitHub repository | Recusal source | https://github.com/JWattjr/recusal |
 | Transaction | Former reviewer's vote on A, rejected on-chain | https://explorer-studio.genlayer.com/tx/0xb63168eb29e055bac7e95b577705861d013a0674501cf427c97d614458c79091 |
