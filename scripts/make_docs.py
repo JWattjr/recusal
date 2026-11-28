@@ -134,7 +134,7 @@ A grants panel can show its work: conflict rulings that change who can actually 
 {desc}
 
 ## Demo URL
-Optional. The website link opens the interactive demo.
+https://www.youtube.com/watch?v=kssoLo0jmxc
 
 ## Website
 https://recusal.vercel.app

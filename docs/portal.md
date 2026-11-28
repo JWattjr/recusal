@@ -18,7 +18,7 @@ A grants panel can show its work: conflict rulings that change who can actually 
 Recusal answers one question for a grants panel: when a disclosed relationship is challenged, may that reviewer still decide that application? GenLayer validators read the disclosure against a frozen demo policy and rule CONFLICT, NO_CONFLICT or INSUFFICIENT, citing the exact passage and the conduct it shows. Contract code then handles the 24-month date test, promotes the next alternate for that application only, and freezes the ballot. The same reviewer stays eligible on the other application, and the recused wallet's vote is rejected on-chain even if it bypasses the interface. Unresolved seats expire into a vacancy instead of locking the round. The live round has four cases, votes rejected on-chain, and a finalized tally. All people are fictional.
 
 ## Demo URL
-Optional. The website link opens the interactive demo.
+https://www.youtube.com/watch?v=kssoLo0jmxc
 
 ## Website
 https://recusal.vercel.app
